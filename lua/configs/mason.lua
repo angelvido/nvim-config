@@ -18,6 +18,7 @@ M.setup = function()
       "yamlls",
       "dockerls",
       "docker_compose_language_service",
+      "bashls",
 
       -- Non configured
       "jsonls",
@@ -26,7 +27,6 @@ M.setup = function()
       "buf_ls",
       "tflint",
       "sqlls",
-      "bashls",
       "ltex",
     },
     automatic_installation = true,
@@ -40,6 +40,7 @@ M.setup = function()
       "stylua",
       "goimports",
       "prettier",
+      "shfmt",
 
       -- Linters
       "hadolint",

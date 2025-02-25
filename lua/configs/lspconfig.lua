@@ -78,3 +78,9 @@ lspconfig.docker_compose_language_service.setup {
   root_dir = util.root_pattern "docker-compose.yaml",
 }
 
+-- Bash and Sh LSP config (bash-language-server)
+lspconfig.bashls.setup {
+  filetypes = { "sh", "bash", "zsh", "bashrc", "zshrc" },
+  root_dir = lspconfig.util.find_git_ancestor,
+  single_file_support = true,
+}
