@@ -1,21 +1,29 @@
 -- load defaults i.e lua_lsp
 require("nvchad.configs.lspconfig").defaults()
+require("configs.mason").setup()
 
 local lspconfig = require "lspconfig"
 local util = require "lspconfig/util"
 
 -- EXAMPLE
-local servers = { "html", "cssls" }
-local nvlsp = require "nvchad.configs.lspconfig"
+-- local servers = { "html", "cssls" }
+-- local nvlsp = require "nvchad.configs.lspconfig"
 
 -- lsps with default config
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = nvlsp.on_attach,
-    on_init = nvlsp.on_init,
-    capabilities = nvlsp.capabilities,
-  }
-end
+-- for _, lsp in ipairs(servers) do
+--   lspconfig[lsp].setup {
+--     on_attach = nvlsp.on_attach,
+--     on_init = nvlsp.on_init,
+--     capabilities = nvlsp.capabilities,
+--   }
+-- end
+
+-- configuring single server, example: typescript
+-- lspconfig.ts_ls.setup {
+--   on_attach = nvlsp.on_attach,
+--   on_init = nvlsp.on_init,
+--   capabilities = nvlsp.capabilities,
+-- }
 
 -- Go LSP config (gopls)
 lspconfig.gopls.setup {
@@ -42,9 +50,31 @@ lspconfig.gopls.setup {
   },
 }
 
--- configuring single server, example: typescript
--- lspconfig.ts_ls.setup {
---   on_attach = nvlsp.on_attach,
---   on_init = nvlsp.on_init,
---   capabilities = nvlsp.capabilities,
--- }
+-- K8S LSP config (yamlls)
+lspconfig.yamlls.setup {
+  settings = {
+    yaml = {
+      schemas = {
+        kubernetes = "*.yaml",
+      },
+      validate = true,
+      completion = true,
+      hover = true,
+    },
+  },
+}
+
+-- Dockerfile LSP config (dockerfile-language-server)
+lspconfig.dockerls.setup {
+  cmd = { "docker-langserver", "--stdio" },
+  filetypes = { "Dockerfile" },
+  root_dir = util.root_pattern "Dockerfile",
+}
+
+-- Docker-Compose LSP config (docker-compose-language-service)
+lspconfig.docker_compose_language_service.setup {
+  cmd = { "docker-compose-language-service", "--stdio" },
+  filetypes = { "yaml.docker-compose" },
+  root_dir = util.root_pattern "docker-compose.yaml",
+}
+

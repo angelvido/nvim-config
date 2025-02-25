@@ -14,6 +14,6 @@ M.base46 = {
   -- },
 }
 
-M.dap = require "dap"
+require "dap"
 
 return M
