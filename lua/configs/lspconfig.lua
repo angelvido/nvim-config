@@ -39,7 +39,6 @@ lspconfig.gopls.setup {
       completeUnimported = true,
       usePlaceholders = true,
       analyses = {
-        fieldalignment = true,
         unusedparams = true,
         nilness = true,
         shadow = true,
