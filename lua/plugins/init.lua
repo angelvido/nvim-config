@@ -1,4 +1,23 @@
 return {
+  -- Copilot plugin
+  {
+    "zbirenbaum/copilot.lua",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup {
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+      }
+    end,
+  },
+
+  {
+    "zbirenbaum/copilot-cmp",
+    after = { "copilot.lua" },
+    config = function()
+      require("copilot_cmp").setup()
+    end,
+  },
   -- Formatters plugin with conform
   {
     "stevearc/conform.nvim",
@@ -9,9 +28,9 @@ return {
   -- Linters plugin with nvim-lint
   {
     "mfussenegger/nvim-lint",
-    config = function ()
-      require("configs.lint")
-    end
+    config = function()
+      require "configs.lint"
+    end,
   },
 
   -- Tools installer plugin with mason.nvim, mason-lspconfig.nvim & mason-tool-installer.nvim
@@ -46,5 +65,46 @@ return {
         "css",
       },
     },
+  },
+
+  -- Alpha dashboard plugin
+  {
+    "goolord/alpha-nvim",
+    event = "VimEnter",
+    config = function()
+      local alpha = require "alpha"
+      local dashboard = require "alpha.themes.dashboard"
+
+      dashboard.section.header.val = {
+        [[                                                                       ]],
+        [[  ██████   █████                   █████   █████  ███                  ]],
+        [[ ░░██████ ░░███                   ░░███   ░░███  ░░░                   ]],
+        [[  ░███░███ ░███   ██████   ██████  ░███    ░███  ████  █████████████   ]],
+        [[  ░███░░███░███  ███░░███ ███░░███ ░███    ░███ ░░███ ░░███░░███░░███  ]],
+        [[  ░███ ░░██████ ░███████ ░███ ░███ ░░███   ███   ░███  ░███ ░███ ░███  ]],
+        [[  ░███  ░░█████ ░███░░░  ░███ ░███  ░░░█████░    ░███  ░███ ░███ ░███  ]],
+        [[  █████  ░░█████░░██████ ░░██████     ░░███      █████ █████░███ █████ ]],
+        [[ ░░░░░    ░░░░░  ░░░░░░   ░░░░░░       ░░░      ░░░░░ ░░░░░ ░░░ ░░░░░  ]],
+        [[                                                                       ]],
+      }
+
+      dashboard.section.buttons.val = {
+        dashboard.button("e", "  Open Nvim Tree", ":NvimTreeToggle <CR>"), -- Icono de Nerd Font para Nvim Tree
+        dashboard.button("f", "  Find file", ":Telescope find_files <CR>"), -- Icono de Nerd Font para Find file
+        dashboard.button("r", "  Recent files", ":Telescope oldfiles <CR>"), -- Icono de Nerd Font para Recent files
+        dashboard.button("q", "  Quit", ":qa<CR>"), -- Icono de Nerd Font para Quit
+      }
+
+      dashboard.opts.layout = {
+        { type = "padding", val = 10 }, -- Padding superior
+        dashboard.section.header, -- La cabecera
+        { type = "padding", val = 2 }, -- Padding entre cabecera y botones
+        dashboard.section.buttons, -- Los botones
+      }
+
+      dashboard.opts.layout[2].opts = { position = "center" }
+
+      alpha.setup(dashboard.opts)
+    end,
   },
 }

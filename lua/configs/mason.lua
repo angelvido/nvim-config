@@ -7,7 +7,7 @@ M.setup = function()
 
   mason.setup()
 
-  -- TODO: Automatize installation of every tool and its update 
+  -- TODO: Automatize installation of every tool and its update
 
   -- LSP installations
   mason_lspconfig.setup {

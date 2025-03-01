@@ -48,21 +48,21 @@ return {
         require("dap").toggle_breakpoint()
       end, { desc = "debugging breakpoint" })
 
-      map("n", "<leader>dc", function ()
+      map("n", "<leader>dc", function()
         require("dap").run_to_cursor()
       end, { desc = "debug run to cursor" })
 
       -- Eval var under cursor
       map("n", "<leader>?", function()
         require("dapui").eval(nil, { enter = true })
-      end, { desc = "eval debugging variable"})
+      end, { desc = "eval debugging variable" })
 
-      map("n", "<leader><F1>", dap.continue, { desc = "continue debugging"})
-      map("n", "<leader><F2>", dap.step_into, { desc = "step into debugging"})
-      map("n", "<leader><F3>", dap.step_over, { desc = "step over debugging"})
-      map("n", "<leader><F4>", dap.step_out, { desc = "step out debugging"})
-      map("n", "<leader><F5>", dap.step_back, { desc = "step back debugging"})
-      map("n", "<leader><F12>", dap.restart, { desc = "restart debugging"})
+      map("n", "<leader><F1>", dap.continue, { desc = "continue debugging" })
+      map("n", "<leader><F2>", dap.step_into, { desc = "step into debugging" })
+      map("n", "<leader><F3>", dap.step_over, { desc = "step over debugging" })
+      map("n", "<leader><F4>", dap.step_out, { desc = "step out debugging" })
+      map("n", "<leader><F5>", dap.step_back, { desc = "step back debugging" })
+      map("n", "<leader><F12>", dap.restart, { desc = "restart debugging" })
 
       dap.listeners.before.attach.dapui_config = function()
         ui.open()
