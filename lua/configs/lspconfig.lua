@@ -83,3 +83,22 @@ lspconfig.bashls.setup {
   root_dir = lspconfig.util.find_git_ancestor,
   single_file_support = true,
 }
+
+-- JSON LSP config (jsonls)
+lspconfig.jsonls.setup {
+  cmd = { "vscode-json-languageserver", "--stdio" },
+  filetypes = { "json" },
+  init_options = {
+    provideFormatter = true,
+  },
+}
+
+-- Terraform LSP config (terraformls)
+lspconfig.terraformls.setup {
+  cmd = { "terraform-ls", "serve" },
+  filetypes = { "terraform", "tf", "hcl" },
+  root_dir = util.root_pattern(".terraform", ".git"),
+}
+
+-- Helm LSP config (helm_ls)
+lspconfig.helm_ls.setup {}

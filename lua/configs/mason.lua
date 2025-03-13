@@ -15,14 +15,16 @@ M.setup = function()
       -- Configured
       "lua_ls",
       "gopls",
+
+      -- Configured but need to test it
+      "jsonls",
+      "terraformls",
       "yamlls",
       "dockerls",
       "docker_compose_language_service",
       "bashls",
 
       -- Non configured
-      "jsonls",
-      "terraformls",
       "helm_ls",
       "buf_ls",
       "tflint",

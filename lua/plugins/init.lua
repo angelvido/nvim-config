@@ -1,5 +1,5 @@
 return {
-  -- Copilot plugin
+  -- Copilot plugins
   {
     "zbirenbaum/copilot.lua",
     event = "InsertEnter",
@@ -11,13 +11,56 @@ return {
     end,
   },
 
+  -- {
+  --   "zbirenbaum/copilot-cmp",
+  --   after = { "copilot.lua" },
+  --   config = function()
+  --     require("copilot_cmp").setup()
+  --   end,
+  -- },
+
   {
-    "zbirenbaum/copilot-cmp",
-    after = { "copilot.lua" },
+    "CopilotC-Nvim/CopilotChat.nvim",
+    cmd = { "CopilotChat", "CopilotChatExplain", "CopilotChatTests", "CopilotChatFix" },
+    dependencies = { "zbirenbaum/copilot.lua" },
     config = function()
-      require("copilot_cmp").setup()
+      require("CopilotChat").setup {
+        debug = false,
+        window = {
+          width = 40,
+          height = 10,
+          border = "rounded",
+          relative = "editor",
+          row = 1,
+          col = 1,
+        },
+      }
     end,
   },
+
+  -- Cmp plugin
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      {
+        "zbirenbaum/copilot-cmp",
+        config = function()
+          require("copilot_cmp").setup()
+        end,
+      },
+    },
+    opts = {
+      sources = {
+        { name = "nvim_lsp", group_index = 2 },
+        { name = "copilot", group_index = 2 },
+        { name = "luasnip", group_index = 2 },
+        { name = "buffer", group_index = 2 },
+        { name = "nvim_lua", group_index = 2 },
+        { name = "path", group_index = 2 },
+      },
+    },
+  },
+
   -- Formatters plugin with conform
   {
     "stevearc/conform.nvim",
