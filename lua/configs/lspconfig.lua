@@ -101,4 +101,22 @@ lspconfig.terraformls.setup {
 }
 
 -- Helm LSP config (helm_ls)
-lspconfig.helm_ls.setup {}
+lspconfig.helm_ls.setup {
+  cmd = { "helm-language-server", "--stdio" },
+  filetypes = { "yaml.helm" },
+  root_dir = util.root_pattern "Chart.yaml",
+}
+
+-- Protobuf LSP config (buf_ls)
+lspconfig.buf_ls.setup {
+  cmd = { "buf-ls" },
+  filetypes = { "proto" },
+  root_dir = util.root_pattern "buf.yaml",
+}
+
+-- SQL LSP config (sql-language-server)
+lspconfig.sqlls.setup {
+  cmd = { "sql-language-server", "up", "--method", "stdio" },
+  filetypes = { "sql" },
+  root_dir = util.root_pattern ".git",
+}

@@ -1,4 +1,13 @@
 return {
+  -- Todo comments plugin
+  {
+    "folke/todo-comments.nvim",
+    event = "BufReadPost",
+    config = function()
+      require("todo-comments").setup {}
+    end,
+  },
+
   -- Copilot plugins
   {
     "zbirenbaum/copilot.lua",
@@ -118,6 +127,12 @@ return {
       local alpha = require "alpha"
       local dashboard = require "alpha.themes.dashboard"
 
+      vim.cmd "highlight AlphaHeader guifg=#4FD6BE"
+      vim.cmd "highlight AlphaButton guifg=#C3E88D"
+
+      dashboard.section.header.opts.hl = "AlphaHeader"
+      dashboard.section.buttons.opts.hl = "AlphaButton"
+
       dashboard.section.header.val = {
         [[                                                                       ]],
         [[  ██████   █████                   █████   █████  ███                  ]],
@@ -139,10 +154,10 @@ return {
       }
 
       dashboard.opts.layout = {
-        { type = "padding", val = 10 }, -- Padding superior
-        dashboard.section.header, -- La cabecera
-        { type = "padding", val = 2 }, -- Padding entre cabecera y botones
-        dashboard.section.buttons, -- Los botones
+        { type = "padding", val = 10 },
+        dashboard.section.header,
+        { type = "padding", val = 2 },
+        dashboard.section.buttons,
       }
 
       dashboard.opts.layout[2].opts = { position = "center" }

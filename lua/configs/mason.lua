@@ -23,12 +23,12 @@ M.setup = function()
       "dockerls",
       "docker_compose_language_service",
       "bashls",
-
-      -- Non configured
+      "sqlls",
       "helm_ls",
       "buf_ls",
+
+      -- Non configured
       "tflint",
-      "sqlls",
       "ltex",
     },
     automatic_installation = true,

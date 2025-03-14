@@ -7,6 +7,7 @@ local map = vim.keymap.set
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 
+-- Copilot mappings
 map("n", "<leader>cc", ":CopilotChat<CR>", { noremap = true, silent = true, desc = "Open GitHub Copilot Chat" })
 map("n", "<leader>cp", ":CopilotChat ", { noremap = true, silent = true, desc = "Make a request to GitHub Copilot" })
 map(
@@ -27,5 +28,8 @@ map(
   ":<C-u>CopilotChatFix<CR>",
   { noremap = true, silent = true, desc = "Fix the code selected with GitHub Copilot" }
 )
+
+-- TODO: Need to move DAP mappings here
+-- TODO: Add mappings to kind of execute specific language commands (an example could be a go run command or the Java ones that obviously are more complex)
 
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")

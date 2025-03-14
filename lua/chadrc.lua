@@ -14,6 +14,9 @@ M.base46 = {
   -- },
 }
 
+-- TODO: Improve the way of implementing the DAP configuration
+-- TODO: Improve the folder structure of this NeoVim configuration
+
 require "dap"
 
 return M
