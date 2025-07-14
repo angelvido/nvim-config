@@ -120,3 +120,13 @@ lspconfig.sqlls.setup {
   filetypes = { "sql" },
   root_dir = util.root_pattern ".git",
 }
+
+-- Auto-start jdtls for Java files
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+  pattern = "*.java",
+  callback = function()
+    vim.defer_fn(function()
+      require("configs.java")
+    end, 100)
+  end,
+})

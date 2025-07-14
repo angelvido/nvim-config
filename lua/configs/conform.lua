@@ -13,6 +13,7 @@ local options = {
     yaml = { "prettier" },
     json = { "prettier" },
     dockerfile = { "shfmt" },
+    java = { "google-java-format" },
     -- css = { "prettier" },
     -- html = { "prettier" },
   },
@@ -21,6 +22,15 @@ local options = {
     -- These options will be passed to conform.format()
     timeout_ms = 500,
     lsp_fallback = true,
+  },
+
+  -- Remember to install the google-java-format binary with `brew install google-java-format`
+  formatters = {
+    ["google-java-format"] = {
+      command = "google-java-format",
+      args = { "-" },
+      stdin = true,
+    },
   },
 }
 

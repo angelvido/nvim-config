@@ -29,7 +29,6 @@ map(
   { noremap = true, silent = true, desc = "Fix the code selected with GitHub Copilot" }
 )
 
--- TODO: Need to move DAP mappings here
 -- TODO: Add mappings to kind of execute specific language commands (an example could be a go run command or the Java ones that obviously are more complex)
 
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")

@@ -7,6 +7,8 @@ M.setup = function()
 
   mason.setup()
 
+  package.loaded["mason-lspconfig.features.automatic_enable"] = {}
+
   -- TODO: Automatize installation of every tool and its update
 
   -- LSP installations
@@ -15,6 +17,7 @@ M.setup = function()
       -- Configured
       "lua_ls",
       "gopls",
+      "jdtls",
 
       -- Configured but need to test it
       "jsonls",
@@ -25,7 +28,7 @@ M.setup = function()
       "bashls",
       "sqlls",
       "helm_ls",
-      "buf_ls",
+      -- "buf",
 
       -- Non configured
       "tflint",

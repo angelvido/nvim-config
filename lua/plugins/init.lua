@@ -8,6 +8,17 @@ return {
     end,
   },
 
+  -- Git config plugin
+  {
+    "akinsho/git-conflict.nvim",
+    version = "v2.1.0",
+    config = function()
+      require("git-conflict").setup {
+        default_mappings = false,
+      }
+    end,
+  },
+
   -- Copilot plugins
   {
     "zbirenbaum/copilot.lua",
@@ -20,18 +31,23 @@ return {
     end,
   },
 
-  -- {
-  --   "zbirenbaum/copilot-cmp",
-  --   after = { "copilot.lua" },
-  --   config = function()
-  --     require("copilot_cmp").setup()
-  --   end,
-  -- },
+  {
+    "zbirenbaum/copilot-cmp",
+    dependencies = { "zbirenbaum/copilot.lua" },
+    config = function()
+      require("copilot_cmp").setup()
+    end,
+  },
 
   {
     "CopilotC-Nvim/CopilotChat.nvim",
     cmd = { "CopilotChat", "CopilotChatExplain", "CopilotChatTests", "CopilotChatFix" },
-    dependencies = { "zbirenbaum/copilot.lua" },
+    dependencies = { "zbirenbaum/copilot.lua", "MeanderingProgrammer/markdown.nvim" },
+    opts = {
+      highlight_headers = false,
+      separator = "---",
+      error_header = "> [!ERROR] Error",
+    },
     config = function()
       require("CopilotChat").setup {
         debug = false,
@@ -47,15 +63,22 @@ return {
     end,
   },
 
+  -- Markdown preview plugin
+  {
+    "MeanderingProgrammer/markdown.nvim",
+    name = "render-markdown",
+    ft = { "markdown", "copilot-chat" },
+    opts = {
+      file_types = { "markdown", "copilot-chat" },
+    },
+  },
+
   -- Cmp plugin
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
       {
         "zbirenbaum/copilot-cmp",
-        config = function()
-          require("copilot_cmp").setup()
-        end,
       },
     },
     opts = {
@@ -88,9 +111,10 @@ return {
   -- Tools installer plugin with mason.nvim, mason-lspconfig.nvim & mason-tool-installer.nvim
   {
     "williamboman/mason.nvim",
+    version = "1.8.3",
     dependencies = {
-      "williamboman/mason-lspconfig.nvim",
-      "WhoIsSethDaniel/mason-tool-installer.nvim",
+      { "williamboman/mason-lspconfig.nvim", version = "1.28.0" },
+      { "WhoIsSethDaniel/mason-tool-installer.nvim", version = "1.6.0" },
     },
     config = function()
       require "configs.mason"
@@ -105,9 +129,19 @@ return {
     end,
   },
 
+  -- Java LSP via nvim-jdtls
+  {
+    "mfussenegger/nvim-jdtls",
+    ft = { "java" },
+    dependencies = {
+      "williamboman/mason.nvim",
+    },
+  },
+
   -- Treesitter plugin
   {
     "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
     opts = {
       ensure_installed = {
         "vim",
@@ -115,6 +149,12 @@ return {
         "vimdoc",
         "html",
         "css",
+        "markdown",
+        "markdown_inline",
+      },
+      highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
       },
     },
   },
