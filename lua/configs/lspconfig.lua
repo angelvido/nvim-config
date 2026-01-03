@@ -1,6 +1,6 @@
 -- load defaults i.e lua_lsp
-require("nvchad.configs.lspconfig").defaults()
 require("configs.mason").setup()
+require("nvchad.configs.lspconfig").defaults()
 
 local lspconfig = require "lspconfig"
 local util = require "lspconfig/util"
@@ -119,6 +119,16 @@ lspconfig.sqlls.setup {
   cmd = { "sql-language-server", "up", "--method", "stdio" },
   filetypes = { "sql" },
   root_dir = util.root_pattern ".git",
+}
+
+lspconfig.sourcekit.setup {
+  capabilities = {
+    workspace = {
+      didChangeWatchedFiles = {
+        dynamicRegistration = true,
+      },
+    },
+  },
 }
 
 -- Auto-start jdtls for Java files

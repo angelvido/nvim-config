@@ -11,7 +11,6 @@ return {
   -- Git config plugin
   {
     "akinsho/git-conflict.nvim",
-    version = "v2.1.0",
     config = function()
       require("git-conflict").setup {
         default_mappings = false,
@@ -84,11 +83,11 @@ return {
     opts = {
       sources = {
         { name = "nvim_lsp", group_index = 2 },
-        { name = "copilot", group_index = 2 },
-        { name = "luasnip", group_index = 2 },
-        { name = "buffer", group_index = 2 },
+        { name = "copilot",  group_index = 2 },
+        { name = "luasnip",  group_index = 2 },
+        { name = "buffer",   group_index = 2 },
         { name = "nvim_lua", group_index = 2 },
-        { name = "path", group_index = 2 },
+        { name = "path",     group_index = 2 },
       },
     },
   },
@@ -110,14 +109,13 @@ return {
 
   -- Tools installer plugin with mason.nvim, mason-lspconfig.nvim & mason-tool-installer.nvim
   {
-    "williamboman/mason.nvim",
-    version = "1.8.3",
+    "williamboman/mason-lspconfig.nvim",
     dependencies = {
-      { "williamboman/mason-lspconfig.nvim", version = "1.28.0" },
-      { "WhoIsSethDaniel/mason-tool-installer.nvim", version = "1.6.0" },
+      "williamboman/mason.nvim", -- Mason se carga primero
+      "WhoIsSethDaniel/mason-tool-installer.nvim",
     },
     config = function()
-      require "configs.mason"
+      require("configs.mason").setup()
     end,
   },
 
@@ -167,23 +165,95 @@ return {
       local alpha = require "alpha"
       local dashboard = require "alpha.themes.dashboard"
 
-      vim.cmd "highlight AlphaHeader guifg=#4FD6BE"
-      vim.cmd "highlight AlphaButton guifg=#C3E88D"
-
       dashboard.section.header.opts.hl = "AlphaHeader"
       dashboard.section.buttons.opts.hl = "AlphaButton"
 
+      -- dashboard.section.header.val = {
+      --   [[                                    ██████                                    ]],
+      --   [[                                ████▒▒▒▒▒▒████                                ]],
+      --   [[                              ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                              ]],
+      --   [[                            ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                            ]],
+      --   [[                          ██▒▒▒▒▒▒▒▒    ▒▒▒▒▒▒▒▒                              ]],
+      --   [[                          ██▒▒▒▒▒▒  ▒▒▓▓▒▒▒▒▒▒  ▓▓▓▓                          ]],
+      --   [[                          ██▒▒▒▒▒▒  ▒▒▓▓▒▒▒▒▒▒  ▒▒▓▓                          ]],
+      --   [[                        ██▒▒▒▒▒▒▒▒▒▒    ▒▒▒▒▒▒▒▒    ██                        ]],
+      --   [[                        ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                        ]],
+      --   [[                        ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                        ]],
+      --   [[                        ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                        ]],
+      --   [[                        ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                        ]],
+      --   [[                        ██▒▒██▒▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒██                        ]],
+      --   [[                        ████  ██▒▒██  ██▒▒▒▒██  ██▒▒██                        ]],
+      --   [[                        ██      ██      ████      ████                        ]],
+      -- }
+
+      -- dashboard.section.header.val = {
+      --   [[                                ]],
+      --   [[             ,,,,,,             ]],
+      --   [[         o#'9MMHb':'-,o,        ]],
+      --   [[      .oH":HH$' "' ' -*R&o,     ]],
+      --   [[     dMMM*""'`'      .oM"HM?.   ]],
+      --   [[   ,MMM'          "HLbd< ?&H\   ]],
+      --   [[  .:MH ."\          ` MM  MM&b  ]],
+      --   [[ . "*H    -        &MMMMMMMMMH: ]],
+      --   [[ .    dboo        MMMMMMMMMMMM. ]],
+      --   [[ .   dMMMMMMb      *MMMMMMMMMP. ]],
+      --   [[ .    MMMMMMMP        *MMMMMP . ]],
+      --   [[      `#MMMMM           MM6P ,  ]],
+      --   [[  '    `MMMP"           HM*`,   ]],
+      --   [[   '    :MM             .- ,    ]],
+      --   [[    '.   `#?..  .       ..'     ]],
+      --   [[       -.   .         .-        ]],
+      --   [[         ''-.oo,oo.-''          ]],
+      --   [[                                ]],
+      -- }
+
+      -- dashboard.section.header.val = {
+      --   [[                                                   ]],
+      --   [[                                              ___  ]],
+      --   [[                                           ,o88888 ]],
+      --   [[                                        ,o8888888' ]],
+      --   [[                  ,:o:o:oooo.        ,8O88Pd8888"  ]],
+      --   [[              ,.::.::o:ooooOoOoO. ,oO8O8Pd888'"    ]],
+      --   [[            ,.:.::o:ooOoOoOO8O8OOo.8OOPd8O8O"      ]],
+      --   [[           , ..:.::o:ooOoOOOO8OOOOo.FdO8O8"        ]],
+      --   [[          , ..:.::o:ooOoOO8O888O8O,COCOO"          ]],
+      --   [[         , . ..:.::o:ooOoOOOO8OOOOCOCO"            ]],
+      --   [[          . ..:.::o:ooOoOoOO8O8OCCCC"o             ]],
+      --   [[             . ..:.::o:ooooOoCoCCC"o:o             ]],
+      --   [[             . ..:.::o:o:,cooooCo"oo:o:            ]],
+      --   [[          `   . . ..:.:cocoooo"'o:o:::'            ]],
+      --   [[          .`   . ..::ccccoc"'o:o:o:::'             ]],
+      --   [[         :.:.    ,c:cccc"':.:.:.:.:.'              ]],
+      --   [[       ..:.:"'`::::c:"'..:.:.:.:.:.'               ]],
+      --   [[     ...:.'.:.::::"'    . . . . .'                 ]],
+      --   [[    .. . ....:."' `   .  . . ''                    ]],
+      --   [[  . . . ...."'                                     ]],
+      --   [[  .. . ."'                                         ]],
+      --   [[ .                                                 ]],
+      --   [[                                                   ]],
+      -- }
+
+      -- dashboard.section.header.val = {
+      --   [[                                                                       ]],
+      --   [[  ██████   █████                   █████   █████  ███                  ]],
+      --   [[ ░░██████ ░░███                   ░░███   ░░███  ░░░                   ]],
+      --   [[  ░███░███ ░███   ██████   ██████  ░███    ░███  ████  █████████████   ]],
+      --   [[  ░███░░███░███  ███░░███ ███░░███ ░███    ░███ ░░███ ░░███░░███░░███  ]],
+      --   [[  ░███ ░░██████ ░███████ ░███ ░███ ░░███   ███   ░███  ░███ ░███ ░███  ]],
+      --   [[  ░███  ░░█████ ░███░░░  ░███ ░███  ░░░█████░    ░███  ░███ ░███ ░███  ]],
+      --   [[  █████  ░░█████░░██████ ░░██████     ░░███      █████ █████░███ █████ ]],
+      --   [[ ░░░░░    ░░░░░  ░░░░░░   ░░░░░░       ░░░      ░░░░░ ░░░░░ ░░░ ░░░░░  ]],
+      --   [[                                                                       ]],
+      -- }
+
       dashboard.section.header.val = {
-        [[                                                                       ]],
-        [[  ██████   █████                   █████   █████  ███                  ]],
-        [[ ░░██████ ░░███                   ░░███   ░░███  ░░░                   ]],
-        [[  ░███░███ ░███   ██████   ██████  ░███    ░███  ████  █████████████   ]],
-        [[  ░███░░███░███  ███░░███ ███░░███ ░███    ░███ ░░███ ░░███░░███░░███  ]],
-        [[  ░███ ░░██████ ░███████ ░███ ░███ ░░███   ███   ░███  ░███ ░███ ░███  ]],
-        [[  ░███  ░░█████ ░███░░░  ░███ ░███  ░░░█████░    ░███  ░███ ░███ ░███  ]],
-        [[  █████  ░░█████░░██████ ░░██████     ░░███      █████ █████░███ █████ ]],
-        [[ ░░░░░    ░░░░░  ░░░░░░   ░░░░░░       ░░░      ░░░░░ ░░░░░ ░░░ ░░░░░  ]],
-        [[                                                                       ]],
+        [[  █████╗ ███╗   ██╗ ██████╗ ███████╗██╗    ██╗   ██╗██╗██████╗  ██████╗   ]],
+        [[ ██╔══██╗████╗  ██║██╔════╝ ██╔════╝██║    ██║   ██║██║██╔══██╗██╔═══██╗ ]],
+        [[ ███████║██╔██╗ ██║██║  ███╗█████╗  ██║    ██║   ██║██║██║  ██║██║   ██║ ]],
+        [[ ██╔══██║██║╚██╗██║██║   ██║██╔══╝  ██║    ╚██╗ ██╔╝██║██║  ██║██║   ██║ ]],
+        [[ ██║  ██║██║ ╚████║╚██████╔╝███████╗███████╗╚████╔╝ ██║██████╔╝╚██████╔╝ ]],
+        [[ ╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝╚══════╝ ╚═══╝  ╚═╝╚═════╝  ╚═════╝  ]],
+
       }
 
       dashboard.section.buttons.val = {
