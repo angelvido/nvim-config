@@ -7,11 +7,34 @@ local M = {}
 
 M.base46 = {
   theme = "tokyonight",
+  transparency = true,
 
   -- hl_override = {
   -- 	Comment = { italic = true },
   -- 	["@comment"] = { italic = true },
   -- },
+}
+
+M.nvdash = {
+  load_on_startup = true,
+
+  header = {
+    [[   █████╗ ███╗   ██╗ ██████╗ ███████╗██╗    ██╗   ██╗██╗██████╗  ██████╗   ]],
+    [[ ██╔══██╗████╗  ██║██╔════╝ ██╔════╝██║    ██║   ██║██║██╔══██╗██╔═══██╗ ]],
+    [[ ███████║██╔██╗ ██║██║  ███╗█████╗  ██║    ██║   ██║██║██║  ██║██║   ██║ ]],
+    [[ ██╔══██║██║╚██╗██║██║   ██║██╔══╝  ██║    ╚██╗ ██╔╝██║██║  ██║██║   ██║ ]],
+    [[ ██║  ██║██║ ╚████║╚██████╔╝███████╗███████╗╚████╔╝ ██║██████╔╝╚██████╔╝ ]],
+    [[ ╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝╚══════╝ ╚═══╝  ╚═╝╚═════╝  ╚═════╝  ]],
+    [[                                                                         ]],
+    [[                                                                         ]],
+  },
+
+  buttons = {
+    { txt = ">    Open Nvim Tree", keys = "e", cmd = ":NvimTreeToggle" },
+    { txt = ">    Find file", keys = "f", cmd = "Telescope find_files" },
+    { txt = ">    Recent files", keys = "r", cmd = "Telescope oldfiles" },
+    { txt = ">    Quit", keys = "q", cmd = "qa" },
+  },
 }
 
 -- TODO: Improve the way of implementing the DAP configuration

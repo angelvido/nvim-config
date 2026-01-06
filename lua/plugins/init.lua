@@ -109,13 +109,40 @@ return {
 
   -- Tools installer plugin with mason.nvim, mason-lspconfig.nvim & mason-tool-installer.nvim
   {
-    "williamboman/mason-lspconfig.nvim",
+    "mason-org/mason-lspconfig.nvim",
     dependencies = {
-      "williamboman/mason.nvim", -- Mason se carga primero
-      "WhoIsSethDaniel/mason-tool-installer.nvim",
+      "mason-org/mason.nvim",
     },
     config = function()
       require("configs.mason").setup()
+    end,
+  },
+
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    dependencies = {
+      "mason-org/mason.nvim",
+    },
+    config = function()
+      require("mason-tool-installer").setup({
+        ensure_installed = {
+          -- Formatters
+          "stylua",
+          "goimports",
+          "prettier",
+          "shfmt",
+          "swiftformat",
+
+          -- Linters
+          "hadolint",
+          "swiftlint",
+          -- "yamllint",
+          -- "jsonlint",
+
+          -- DAP Tools
+          "delve",
+        },
+      })
     end,
   },
 
@@ -132,7 +159,7 @@ return {
     "mfussenegger/nvim-jdtls",
     ft = { "java" },
     dependencies = {
-      "williamboman/mason.nvim",
+      "mason-org/mason.nvim",
     },
   },
 
@@ -158,121 +185,120 @@ return {
   },
 
   -- Alpha dashboard plugin
-  {
-    "goolord/alpha-nvim",
-    event = "VimEnter",
-    config = function()
-      local alpha = require "alpha"
-      local dashboard = require "alpha.themes.dashboard"
-
-      dashboard.section.header.opts.hl = "AlphaHeader"
-      dashboard.section.buttons.opts.hl = "AlphaButton"
-
-      -- dashboard.section.header.val = {
-      --   [[                                    ██████                                    ]],
-      --   [[                                ████▒▒▒▒▒▒████                                ]],
-      --   [[                              ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                              ]],
-      --   [[                            ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                            ]],
-      --   [[                          ██▒▒▒▒▒▒▒▒    ▒▒▒▒▒▒▒▒                              ]],
-      --   [[                          ██▒▒▒▒▒▒  ▒▒▓▓▒▒▒▒▒▒  ▓▓▓▓                          ]],
-      --   [[                          ██▒▒▒▒▒▒  ▒▒▓▓▒▒▒▒▒▒  ▒▒▓▓                          ]],
-      --   [[                        ██▒▒▒▒▒▒▒▒▒▒    ▒▒▒▒▒▒▒▒    ██                        ]],
-      --   [[                        ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                        ]],
-      --   [[                        ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                        ]],
-      --   [[                        ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                        ]],
-      --   [[                        ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                        ]],
-      --   [[                        ██▒▒██▒▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒██                        ]],
-      --   [[                        ████  ██▒▒██  ██▒▒▒▒██  ██▒▒██                        ]],
-      --   [[                        ██      ██      ████      ████                        ]],
-      -- }
-
-      -- dashboard.section.header.val = {
-      --   [[                                ]],
-      --   [[             ,,,,,,             ]],
-      --   [[         o#'9MMHb':'-,o,        ]],
-      --   [[      .oH":HH$' "' ' -*R&o,     ]],
-      --   [[     dMMM*""'`'      .oM"HM?.   ]],
-      --   [[   ,MMM'          "HLbd< ?&H\   ]],
-      --   [[  .:MH ."\          ` MM  MM&b  ]],
-      --   [[ . "*H    -        &MMMMMMMMMH: ]],
-      --   [[ .    dboo        MMMMMMMMMMMM. ]],
-      --   [[ .   dMMMMMMb      *MMMMMMMMMP. ]],
-      --   [[ .    MMMMMMMP        *MMMMMP . ]],
-      --   [[      `#MMMMM           MM6P ,  ]],
-      --   [[  '    `MMMP"           HM*`,   ]],
-      --   [[   '    :MM             .- ,    ]],
-      --   [[    '.   `#?..  .       ..'     ]],
-      --   [[       -.   .         .-        ]],
-      --   [[         ''-.oo,oo.-''          ]],
-      --   [[                                ]],
-      -- }
-
-      -- dashboard.section.header.val = {
-      --   [[                                                   ]],
-      --   [[                                              ___  ]],
-      --   [[                                           ,o88888 ]],
-      --   [[                                        ,o8888888' ]],
-      --   [[                  ,:o:o:oooo.        ,8O88Pd8888"  ]],
-      --   [[              ,.::.::o:ooooOoOoO. ,oO8O8Pd888'"    ]],
-      --   [[            ,.:.::o:ooOoOoOO8O8OOo.8OOPd8O8O"      ]],
-      --   [[           , ..:.::o:ooOoOOOO8OOOOo.FdO8O8"        ]],
-      --   [[          , ..:.::o:ooOoOO8O888O8O,COCOO"          ]],
-      --   [[         , . ..:.::o:ooOoOOOO8OOOOCOCO"            ]],
-      --   [[          . ..:.::o:ooOoOoOO8O8OCCCC"o             ]],
-      --   [[             . ..:.::o:ooooOoCoCCC"o:o             ]],
-      --   [[             . ..:.::o:o:,cooooCo"oo:o:            ]],
-      --   [[          `   . . ..:.:cocoooo"'o:o:::'            ]],
-      --   [[          .`   . ..::ccccoc"'o:o:o:::'             ]],
-      --   [[         :.:.    ,c:cccc"':.:.:.:.:.'              ]],
-      --   [[       ..:.:"'`::::c:"'..:.:.:.:.:.'               ]],
-      --   [[     ...:.'.:.::::"'    . . . . .'                 ]],
-      --   [[    .. . ....:."' `   .  . . ''                    ]],
-      --   [[  . . . ...."'                                     ]],
-      --   [[  .. . ."'                                         ]],
-      --   [[ .                                                 ]],
-      --   [[                                                   ]],
-      -- }
-
-      -- dashboard.section.header.val = {
-      --   [[                                                                       ]],
-      --   [[  ██████   █████                   █████   █████  ███                  ]],
-      --   [[ ░░██████ ░░███                   ░░███   ░░███  ░░░                   ]],
-      --   [[  ░███░███ ░███   ██████   ██████  ░███    ░███  ████  █████████████   ]],
-      --   [[  ░███░░███░███  ███░░███ ███░░███ ░███    ░███ ░░███ ░░███░░███░░███  ]],
-      --   [[  ░███ ░░██████ ░███████ ░███ ░███ ░░███   ███   ░███  ░███ ░███ ░███  ]],
-      --   [[  ░███  ░░█████ ░███░░░  ░███ ░███  ░░░█████░    ░███  ░███ ░███ ░███  ]],
-      --   [[  █████  ░░█████░░██████ ░░██████     ░░███      █████ █████░███ █████ ]],
-      --   [[ ░░░░░    ░░░░░  ░░░░░░   ░░░░░░       ░░░      ░░░░░ ░░░░░ ░░░ ░░░░░  ]],
-      --   [[                                                                       ]],
-      -- }
-
-      dashboard.section.header.val = {
-        [[  █████╗ ███╗   ██╗ ██████╗ ███████╗██╗    ██╗   ██╗██╗██████╗  ██████╗   ]],
-        [[ ██╔══██╗████╗  ██║██╔════╝ ██╔════╝██║    ██║   ██║██║██╔══██╗██╔═══██╗ ]],
-        [[ ███████║██╔██╗ ██║██║  ███╗█████╗  ██║    ██║   ██║██║██║  ██║██║   ██║ ]],
-        [[ ██╔══██║██║╚██╗██║██║   ██║██╔══╝  ██║    ╚██╗ ██╔╝██║██║  ██║██║   ██║ ]],
-        [[ ██║  ██║██║ ╚████║╚██████╔╝███████╗███████╗╚████╔╝ ██║██████╔╝╚██████╔╝ ]],
-        [[ ╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝╚══════╝ ╚═══╝  ╚═╝╚═════╝  ╚═════╝  ]],
-
-      }
-
-      dashboard.section.buttons.val = {
-        dashboard.button("e", "  Open Nvim Tree", ":NvimTreeToggle <CR>"), -- Icono de Nerd Font para Nvim Tree
-        dashboard.button("f", "  Find file", ":Telescope find_files <CR>"), -- Icono de Nerd Font para Find file
-        dashboard.button("r", "  Recent files", ":Telescope oldfiles <CR>"), -- Icono de Nerd Font para Recent files
-        dashboard.button("q", "  Quit", ":qa<CR>"), -- Icono de Nerd Font para Quit
-      }
-
-      dashboard.opts.layout = {
-        { type = "padding", val = 10 },
-        dashboard.section.header,
-        { type = "padding", val = 2 },
-        dashboard.section.buttons,
-      }
-
-      dashboard.opts.layout[2].opts = { position = "center" }
-
-      alpha.setup(dashboard.opts)
-    end,
-  },
+  -- {
+  --   "goolord/alpha-nvim",
+  --   event = "vimenter",
+  --   config = function()
+  --     local alpha = require "alpha"
+  --     local dashboard = require "alpha.themes.dashboard"
+  --
+  --     dashboard.section.header.opts.hl = "alphaheader"
+  --     dashboard.section.buttons.opts.hl = "alphabutton"
+  --
+  --     -- dashboard.section.header.val = {
+  --     --   [[                                    ██████                                    ]],
+  --     --   [[                                ████▒▒▒▒▒▒████                                ]],
+  --     --   [[                              ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                              ]],
+  --     --   [[                            ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                            ]],
+  --     --   [[                          ██▒▒▒▒▒▒▒▒    ▒▒▒▒▒▒▒▒                              ]],
+  --     --   [[                          ██▒▒▒▒▒▒  ▒▒▓▓▒▒▒▒▒▒  ▓▓▓▓                          ]],
+  --     --   [[                          ██▒▒▒▒▒▒  ▒▒▓▓▒▒▒▒▒▒  ▒▒▓▓                          ]],
+  --     --   [[                        ██▒▒▒▒▒▒▒▒▒▒    ▒▒▒▒▒▒▒▒    ██                        ]],
+  --     --   [[                        ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                        ]],
+  --     --   [[                        ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                        ]],
+  --     --   [[                        ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                        ]],
+  --     --   [[                        ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                        ]],
+  --     --   [[                        ██▒▒██▒▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒██                        ]],
+  --     --   [[                        ████  ██▒▒██  ██▒▒▒▒██  ██▒▒██                        ]],
+  --     --   [[                        ██      ██      ████      ████                        ]],
+  --     -- }
+  --
+  --     -- dashboard.section.header.val = {
+  --     --   [[                                ]],
+  --     --   [[             ,,,,,,             ]],
+  --     --   [[         o#'9mmhb':'-,o,        ]],
+  --     --   [[      .oh":hh$' "' ' -*r&o,     ]],
+  --     --   [[     dmmm*""'`'      .om"hm?.   ]],
+  --     --   [[   ,mmm'          "hlbd< ?&h\   ]],
+  --     --   [[  .:mh ."\          ` mm  mm&b  ]],
+  --     --   [[ . "*h    -        &mmmmmmmmmh: ]],
+  --     --   [[ .    dboo        mmmmmmmmmmmm. ]],
+  --     --   [[ .   dmmmmmmb      *mmmmmmmmmp. ]],
+  --     --   [[ .    mmmmmmmp        *mmmmmp . ]],
+  --     --   [[      `#mmmmm           mm6p ,  ]],
+  --     --   [[  '    `mmmp"           hm*`,   ]],
+  --     --   [[   '    :mm             .- ,    ]],
+  --     --   [[    '.   `#?..  .       ..'     ]],
+  --     --   [[       -.   .         .-        ]],
+  --     --   [[         ''-.oo,oo.-''          ]],
+  --     --   [[                                ]],
+  --     -- }
+  --
+  --     -- dashboard.section.header.val = {
+  --     --   [[                                                   ]],
+  --     --   [[                                              ___  ]],
+  --     --   [[                                           ,o88888 ]],
+  --     --   [[                                        ,o8888888' ]],
+  --     --   [[                  ,:o:o:oooo.        ,8o88pd8888"  ]],
+  --     --   [[              ,.::.::o:ooooooooo. ,oo8o8pd888'"    ]],
+  --     --   [[            ,.:.::o:oooooooo8o8ooo.8oopd8o8o"      ]],
+  --     --   [[           , ..:.::o:oooooooo8ooooo.fdo8o8"        ]],
+  --     --   [[          , ..:.::o:oooooo8o888o8o,cocoo"          ]],
+  --     --   [[         , . ..:.::o:oooooooo8oooococo"            ]],
+  --     --   [[          . ..:.::o:oooooooo8o8occcc"o             ]],
+  --     --   [[             . ..:.::o:oooooococcc"o:o             ]],
+  --     --   [[             . ..:.::o:o:,cooooco"oo:o:            ]],
+  --     --   [[          `   . . ..:.:cocoooo"'o:o:::'            ]],
+  --     --   [[          .`   . ..::ccccoc"'o:o:o:::'             ]],
+  --     --   [[         :.:.    ,c:cccc"':.:.:.:.:.'              ]],
+  --     --   [[       ..:.:"'`::::c:"'..:.:.:.:.:.'               ]],
+  --     --   [[     ...:.'.:.::::"'    . . . . .'                 ]],
+  --     --   [[    .. . ....:."' `   .  . . ''                    ]],
+  --     --   [[  . . . ...."'                                     ]],
+  --     --   [[  .. . ."'                                         ]],
+  --     --   [[ .                                                 ]],
+  --     --   [[                                                   ]],
+  --     -- }
+  --
+  --     -- dashboard.section.header.val = {
+  --     --   [[                                                                       ]],
+  --     --   [[  ██████   █████                   █████   █████  ███                  ]],
+  --     --   [[ ░░██████ ░░███                   ░░███   ░░███  ░░░                   ]],
+  --     --   [[  ░███░███ ░███   ██████   ██████  ░███    ░███  ████  █████████████   ]],
+  --     --   [[  ░███░░███░███  ███░░███ ███░░███ ░███    ░███ ░░███ ░░███░░███░░███  ]],
+  --     --   [[  ░███ ░░██████ ░███████ ░███ ░███ ░░███   ███   ░███  ░███ ░███ ░███  ]],
+  --     --   [[  ░███  ░░█████ ░███░░░  ░███ ░███  ░░░█████░    ░███  ░███ ░███ ░███  ]],
+  --     --   [[  █████  ░░█████░░██████ ░░██████     ░░███      █████ █████░███ █████ ]],
+  --     --   [[ ░░░░░    ░░░░░  ░░░░░░   ░░░░░░       ░░░      ░░░░░ ░░░░░ ░░░ ░░░░░  ]],
+  --     --   [[                                                                       ]],
+  --     -- }
+  --
+  --     dashboard.section.header.val = {
+  --       [[  █████╗ ███╗   ██╗ ██████╗ ███████╗██╗    ██╗   ██╗██╗██████╗  ██████╗   ]],
+  --       [[ ██╔══██╗████╗  ██║██╔════╝ ██╔════╝██║    ██║   ██║██║██╔══██╗██╔═══██╗ ]],
+  --       [[ ███████║██╔██╗ ██║██║  ███╗█████╗  ██║    ██║   ██║██║██║  ██║██║   ██║ ]],
+  --       [[ ██╔══██║██║╚██╗██║██║   ██║██╔══╝  ██║    ╚██╗ ██╔╝██║██║  ██║██║   ██║ ]],
+  --       [[ ██║  ██║██║ ╚████║╚██████╔╝███████╗███████╗╚████╔╝ ██║██████╔╝╚██████╔╝ ]],
+  --       [[ ╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝╚══════╝ ╚═══╝  ╚═╝╚═════╝  ╚═════╝  ]],
+  --     }
+  --
+  --     dashboard.section.buttons.val = {
+  --       dashboard.button("e", "  open nvim tree", ":nvimtreetoggle <cr>"), -- icono de nerd font para nvim tree
+  --       dashboard.button("f", "  find file", ":telescope find_files <cr>"), -- icono de nerd font para find file
+  --       dashboard.button("r", "  recent files", ":telescope oldfiles <cr>"), -- icono de nerd font para recent files
+  --       dashboard.button("q", "  quit", ":qa<cr>"), -- icono de nerd font para quit
+  --     }
+  --
+  --     dashboard.opts.layout = {
+  --       { type = "padding", val = 10 },
+  --       dashboard.section.header,
+  --       { type = "padding", val = 2 },
+  --       dashboard.section.buttons,
+  --     }
+  --
+  --     dashboard.opts.layout[2].opts = { position = "center" }
+  --
+  --     alpha.setup(dashboard.opts)
+  --   end,
+  -- },
 }
