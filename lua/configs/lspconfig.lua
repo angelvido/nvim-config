@@ -5,6 +5,16 @@ require("nvchad.configs.lspconfig").defaults()
 local lspconfig = require "lspconfig"
 local util = require "lspconfig/util"
 
+local fidget = require "fidget"
+local progress = require "fidget.progress"
+
+local handle = nil
+
+handle = progress.handle.create {
+  title = "LSP config",
+  message = "Configuring LSP...",
+}
+
 -- EXAMPLE
 -- local servers = { "html", "cssls" }
 -- local nvlsp = require "nvchad.configs.lspconfig"
@@ -136,7 +146,10 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
   pattern = "*.java",
   callback = function()
     vim.defer_fn(function()
-      require("configs.java")
+      require "configs.java"
     end, 100)
   end,
 })
+
+handle:finish()
+fidget.notify("LSP config: LSP configuration verified", vim.log.levels.INFO)

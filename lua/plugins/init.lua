@@ -123,26 +123,9 @@ return {
     dependencies = {
       "mason-org/mason.nvim",
     },
+    lazy = false,
     config = function()
-      require("mason-tool-installer").setup {
-        ensure_installed = {
-          -- Formatters
-          "stylua",
-          "goimports",
-          "prettier",
-          "shfmt",
-          "swiftformat",
-
-          -- Linters
-          "hadolint",
-          "swiftlint",
-          -- "yamllint",
-          -- "jsonlint",
-
-          -- DAP Tools
-          "delve",
-        },
-      }
+      require("configs.mason-tools").setup()
     end,
   },
 
