@@ -83,11 +83,11 @@ return {
     opts = {
       sources = {
         { name = "nvim_lsp", group_index = 2 },
-        { name = "copilot",  group_index = 2 },
-        { name = "luasnip",  group_index = 2 },
-        { name = "buffer",   group_index = 2 },
+        { name = "copilot", group_index = 2 },
+        { name = "luasnip", group_index = 2 },
+        { name = "buffer", group_index = 2 },
         { name = "nvim_lua", group_index = 2 },
-        { name = "path",     group_index = 2 },
+        { name = "path", group_index = 2 },
       },
     },
   },
@@ -124,7 +124,7 @@ return {
       "mason-org/mason.nvim",
     },
     config = function()
-      require("mason-tool-installer").setup({
+      require("mason-tool-installer").setup {
         ensure_installed = {
           -- Formatters
           "stylua",
@@ -142,7 +142,7 @@ return {
           -- DAP Tools
           "delve",
         },
-      })
+      }
     end,
   },
 
@@ -301,4 +301,104 @@ return {
   --     alpha.setup(dashboard.opts)
   --   end,
   -- },
+
+  -- Xcodebuild plugins
+  {
+    "j-hui/fidget.nvim",
+    event = "VeryLazy",
+    config = function()
+      local fidget = require "fidget"
+      fidget.setup {
+        notification = {
+          window = {
+            normal_hl = "String", -- Base highlight group in the notification window
+            winblend = 0, -- Background color opacity in the notification window
+            border = "rounded", -- Border around the notification window
+            zindex = 45, -- Stacking priority of the notification window
+            max_width = 0, -- Maximum width of the notification window
+            max_height = 0, -- Maximum height of the notification window
+            x_padding = 1, -- Padding from right edge of window boundary
+            y_padding = 1, -- Padding from bottom edge of window boundary
+            align = "bottom", -- How to align the notification window
+            relative = "editor", -- What the notification window position is relative to
+          },
+        },
+      }
+    end,
+  },
+
+  {
+    "wojciech-kulik/xcodebuild.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      "MunifTanjim/nui.nvim",
+    },
+    cmd = {
+      "XcodebuildSetup",
+      "XcodebuildPicker",
+      "XcodebuildBuild",
+      "XcodebuildTest",
+      "XcodebuildRun",
+      "XcodebuildProjectManager",
+      "XcodebuildBuildForTesting",
+      "XcodebuildBuildRun",
+      "XcodebuildTestSelected",
+      "XcodebuildTestClass",
+      "XcodebuildToggleLogs",
+      "XcodebuildToggleCodeCoverage",
+      "XcodebuildShowCodeCoverageReport",
+      "XcodebuildTestExplorerToggle",
+      "XcodebuildFailingSnapshots",
+      "XcodebuildSelectDevice",
+      "XcodebuildSelectTestPlan",
+      "Telescope quickfix",
+      "XcodebuildQuickfixLine",
+      "XcodebuildCodeActions",
+    },
+    config = function()
+      require("xcodebuild").setup {
+        show_build_progress_bar = false,
+        logs = {
+          auto_open_on_success_tests = false,
+          auto_open_on_failed_tests = false,
+          auto_open_on_success_build = false,
+          auto_open_on_failed_build = false,
+          auto_focus = false,
+          auto_close_on_app_launch = true,
+          only_summary = true,
+          notify = function(message, severity)
+            local fidget = require "fidget"
+            if progress_handle then
+              progress_handle.message = message
+              if not message:find "Loading" then
+                progress_handle:finish()
+                progress_handle = nil
+                if vim.trim(message) ~= "" then
+                  fidget.notify(message, severity)
+                end
+              end
+            else
+              fidget.notify(message, severity)
+            end
+          end,
+          notify_progress = function(message)
+            local progress = require "fidget.progress"
+
+            if progress_handle then
+              progress_handle.title = ""
+              progress_handle.message = message
+            else
+              progress_handle = progress.handle.create {
+                message = message,
+                lsp_client = { name = "xcodebuild.nvim" },
+              }
+            end
+          end,
+        },
+        code_coverage = {
+          enabled = true,
+        },
+      }
+    end,
+  },
 }
