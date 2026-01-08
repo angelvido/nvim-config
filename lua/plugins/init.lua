@@ -167,146 +167,12 @@ return {
     },
   },
 
-  -- Alpha dashboard plugin
-  -- {
-  --   "goolord/alpha-nvim",
-  --   event = "vimenter",
-  --   config = function()
-  --     local alpha = require "alpha"
-  --     local dashboard = require "alpha.themes.dashboard"
-  --
-  --     dashboard.section.header.opts.hl = "alphaheader"
-  --     dashboard.section.buttons.opts.hl = "alphabutton"
-  --
-  --     -- dashboard.section.header.val = {
-  --     --   [[                                    ██████                                    ]],
-  --     --   [[                                ████▒▒▒▒▒▒████                                ]],
-  --     --   [[                              ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                              ]],
-  --     --   [[                            ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                            ]],
-  --     --   [[                          ██▒▒▒▒▒▒▒▒    ▒▒▒▒▒▒▒▒                              ]],
-  --     --   [[                          ██▒▒▒▒▒▒  ▒▒▓▓▒▒▒▒▒▒  ▓▓▓▓                          ]],
-  --     --   [[                          ██▒▒▒▒▒▒  ▒▒▓▓▒▒▒▒▒▒  ▒▒▓▓                          ]],
-  --     --   [[                        ██▒▒▒▒▒▒▒▒▒▒    ▒▒▒▒▒▒▒▒    ██                        ]],
-  --     --   [[                        ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                        ]],
-  --     --   [[                        ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                        ]],
-  --     --   [[                        ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                        ]],
-  --     --   [[                        ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██                        ]],
-  --     --   [[                        ██▒▒██▒▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒██                        ]],
-  --     --   [[                        ████  ██▒▒██  ██▒▒▒▒██  ██▒▒██                        ]],
-  --     --   [[                        ██      ██      ████      ████                        ]],
-  --     -- }
-  --
-  --     -- dashboard.section.header.val = {
-  --     --   [[                                ]],
-  --     --   [[             ,,,,,,             ]],
-  --     --   [[         o#'9mmhb':'-,o,        ]],
-  --     --   [[      .oh":hh$' "' ' -*r&o,     ]],
-  --     --   [[     dmmm*""'`'      .om"hm?.   ]],
-  --     --   [[   ,mmm'          "hlbd< ?&h\   ]],
-  --     --   [[  .:mh ."\          ` mm  mm&b  ]],
-  --     --   [[ . "*h    -        &mmmmmmmmmh: ]],
-  --     --   [[ .    dboo        mmmmmmmmmmmm. ]],
-  --     --   [[ .   dmmmmmmb      *mmmmmmmmmp. ]],
-  --     --   [[ .    mmmmmmmp        *mmmmmp . ]],
-  --     --   [[      `#mmmmm           mm6p ,  ]],
-  --     --   [[  '    `mmmp"           hm*`,   ]],
-  --     --   [[   '    :mm             .- ,    ]],
-  --     --   [[    '.   `#?..  .       ..'     ]],
-  --     --   [[       -.   .         .-        ]],
-  --     --   [[         ''-.oo,oo.-''          ]],
-  --     --   [[                                ]],
-  --     -- }
-  --
-  --     -- dashboard.section.header.val = {
-  --     --   [[                                                   ]],
-  --     --   [[                                              ___  ]],
-  --     --   [[                                           ,o88888 ]],
-  --     --   [[                                        ,o8888888' ]],
-  --     --   [[                  ,:o:o:oooo.        ,8o88pd8888"  ]],
-  --     --   [[              ,.::.::o:ooooooooo. ,oo8o8pd888'"    ]],
-  --     --   [[            ,.:.::o:oooooooo8o8ooo.8oopd8o8o"      ]],
-  --     --   [[           , ..:.::o:oooooooo8ooooo.fdo8o8"        ]],
-  --     --   [[          , ..:.::o:oooooo8o888o8o,cocoo"          ]],
-  --     --   [[         , . ..:.::o:oooooooo8oooococo"            ]],
-  --     --   [[          . ..:.::o:oooooooo8o8occcc"o             ]],
-  --     --   [[             . ..:.::o:oooooococcc"o:o             ]],
-  --     --   [[             . ..:.::o:o:,cooooco"oo:o:            ]],
-  --     --   [[          `   . . ..:.:cocoooo"'o:o:::'            ]],
-  --     --   [[          .`   . ..::ccccoc"'o:o:o:::'             ]],
-  --     --   [[         :.:.    ,c:cccc"':.:.:.:.:.'              ]],
-  --     --   [[       ..:.:"'`::::c:"'..:.:.:.:.:.'               ]],
-  --     --   [[     ...:.'.:.::::"'    . . . . .'                 ]],
-  --     --   [[    .. . ....:."' `   .  . . ''                    ]],
-  --     --   [[  . . . ...."'                                     ]],
-  --     --   [[  .. . ."'                                         ]],
-  --     --   [[ .                                                 ]],
-  --     --   [[                                                   ]],
-  --     -- }
-  --
-  --     -- dashboard.section.header.val = {
-  --     --   [[                                                                       ]],
-  --     --   [[  ██████   █████                   █████   █████  ███                  ]],
-  --     --   [[ ░░██████ ░░███                   ░░███   ░░███  ░░░                   ]],
-  --     --   [[  ░███░███ ░███   ██████   ██████  ░███    ░███  ████  █████████████   ]],
-  --     --   [[  ░███░░███░███  ███░░███ ███░░███ ░███    ░███ ░░███ ░░███░░███░░███  ]],
-  --     --   [[  ░███ ░░██████ ░███████ ░███ ░███ ░░███   ███   ░███  ░███ ░███ ░███  ]],
-  --     --   [[  ░███  ░░█████ ░███░░░  ░███ ░███  ░░░█████░    ░███  ░███ ░███ ░███  ]],
-  --     --   [[  █████  ░░█████░░██████ ░░██████     ░░███      █████ █████░███ █████ ]],
-  --     --   [[ ░░░░░    ░░░░░  ░░░░░░   ░░░░░░       ░░░      ░░░░░ ░░░░░ ░░░ ░░░░░  ]],
-  --     --   [[                                                                       ]],
-  --     -- }
-  --
-  --     dashboard.section.header.val = {
-  --       [[  █████╗ ███╗   ██╗ ██████╗ ███████╗██╗    ██╗   ██╗██╗██████╗  ██████╗   ]],
-  --       [[ ██╔══██╗████╗  ██║██╔════╝ ██╔════╝██║    ██║   ██║██║██╔══██╗██╔═══██╗ ]],
-  --       [[ ███████║██╔██╗ ██║██║  ███╗█████╗  ██║    ██║   ██║██║██║  ██║██║   ██║ ]],
-  --       [[ ██╔══██║██║╚██╗██║██║   ██║██╔══╝  ██║    ╚██╗ ██╔╝██║██║  ██║██║   ██║ ]],
-  --       [[ ██║  ██║██║ ╚████║╚██████╔╝███████╗███████╗╚████╔╝ ██║██████╔╝╚██████╔╝ ]],
-  --       [[ ╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝╚══════╝ ╚═══╝  ╚═╝╚═════╝  ╚═════╝  ]],
-  --     }
-  --
-  --     dashboard.section.buttons.val = {
-  --       dashboard.button("e", "  open nvim tree", ":nvimtreetoggle <cr>"), -- icono de nerd font para nvim tree
-  --       dashboard.button("f", "  find file", ":telescope find_files <cr>"), -- icono de nerd font para find file
-  --       dashboard.button("r", "  recent files", ":telescope oldfiles <cr>"), -- icono de nerd font para recent files
-  --       dashboard.button("q", "  quit", ":qa<cr>"), -- icono de nerd font para quit
-  --     }
-  --
-  --     dashboard.opts.layout = {
-  --       { type = "padding", val = 10 },
-  --       dashboard.section.header,
-  --       { type = "padding", val = 2 },
-  --       dashboard.section.buttons,
-  --     }
-  --
-  --     dashboard.opts.layout[2].opts = { position = "center" }
-  --
-  --     alpha.setup(dashboard.opts)
-  --   end,
-  -- },
-
   -- Xcodebuild plugins
   {
     "j-hui/fidget.nvim",
     event = "VeryLazy",
     config = function()
-      local fidget = require "fidget"
-      fidget.setup {
-        notification = {
-          window = {
-            normal_hl = "String", -- Base highlight group in the notification window
-            winblend = 0, -- Background color opacity in the notification window
-            border = "rounded", -- Border around the notification window
-            zindex = 45, -- Stacking priority of the notification window
-            max_width = 0, -- Maximum width of the notification window
-            max_height = 0, -- Maximum height of the notification window
-            x_padding = 1, -- Padding from right edge of window boundary
-            y_padding = 1, -- Padding from bottom edge of window boundary
-            align = "bottom", -- How to align the notification window
-            relative = "editor", -- What the notification window position is relative to
-          },
-        },
-      }
+      require("configs.fidget").setup()
     end,
   },
 
@@ -334,54 +200,12 @@ return {
       "XcodebuildFailingSnapshots",
       "XcodebuildSelectDevice",
       "XcodebuildSelectTestPlan",
-      "Telescope quickfix",
+      -- "Telescope quickfix",
       "XcodebuildQuickfixLine",
       "XcodebuildCodeActions",
     },
     config = function()
-      require("xcodebuild").setup {
-        show_build_progress_bar = false,
-        logs = {
-          auto_open_on_success_tests = false,
-          auto_open_on_failed_tests = false,
-          auto_open_on_success_build = false,
-          auto_open_on_failed_build = false,
-          auto_focus = false,
-          auto_close_on_app_launch = true,
-          only_summary = true,
-          notify = function(message, severity)
-            local fidget = require "fidget"
-            if progress_handle then
-              progress_handle.message = message
-              if not message:find "Loading" then
-                progress_handle:finish()
-                progress_handle = nil
-                if vim.trim(message) ~= "" then
-                  fidget.notify(message, severity)
-                end
-              end
-            else
-              fidget.notify(message, severity)
-            end
-          end,
-          notify_progress = function(message)
-            local progress = require "fidget.progress"
-
-            if progress_handle then
-              progress_handle.title = ""
-              progress_handle.message = message
-            else
-              progress_handle = progress.handle.create {
-                message = message,
-                lsp_client = { name = "xcodebuild.nvim" },
-              }
-            end
-          end,
-        },
-        code_coverage = {
-          enabled = true,
-        },
-      }
+      require("xcodebuild").setup()
     end,
   },
 }
