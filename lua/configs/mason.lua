@@ -17,7 +17,6 @@ M.setup = function()
   mason_lspconfig.setup {
     ensure_installed = {
       -- Configured LSPs
-      "lua_ls",
       "gopls",
       "jsonls",
       "terraformls",
@@ -25,11 +24,15 @@ M.setup = function()
       "dockerls",
       "docker_compose_language_service",
       "bashls",
+      "ts_ls",
+      "html",
       "sqlls",
       "helm_ls",
+      "buf_ls",
+      "pyright",
+      "cssls",
+      "jdtls",
     },
-    -- mason-lspconfig now auto-enables installed servers by default; disable to avoid
-    -- duplicate lua_ls (and others) when we enable servers in configs/lspconfig.lua.
     automatic_enable = false,
   }
 

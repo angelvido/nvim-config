@@ -2,7 +2,24 @@
 require("nvchad.configs.lspconfig").defaults()
 
 local nvlsp = require "nvchad.configs.lspconfig"
-local util = require "lspconfig/util"
+local lsp = {
+  gopls = require "lsp.gopls",
+  yamlls = require "lsp.yamlls",
+  dockerls = require "lsp.dockerls",
+  docker_compose_language_service = require "lsp.docker_compose_language_service",
+  bashls = require "lsp.bashls",
+  ts_ls = require "lsp.ts_ls",
+  html = require "lsp.html",
+  jsonls = require "lsp.jsonls",
+  terraformls = require "lsp.terraformls",
+  helm_ls = require "lsp.helm_ls",
+  buf_ls = require "lsp.buf_ls",
+  cssls = require "lsp.cssls",
+  sqlls = require "lsp.sqlls",
+  sourcekit = require "lsp.sourcekit",
+  jdtls = require "lsp.jdtls",
+  pyright = require "lsp.pyright",
+}
 
 local fidget = require "fidget"
 local progress = require "fidget.progress"
@@ -60,124 +77,50 @@ handle = progress.handle.create {
 
 local servers = {
   -- Go LSP config (gopls)
-  gopls = {
-    cmd = { "gopls" },
-    filetypes = { "go", "gomod", "gowork", "gotmpl" },
-    root_dir = util.root_pattern("go.work", "go.mod", ".git"),
-    flags = {
-      debounce_text_changes = 500,
-    },
-
-    settings = {
-      gopls = {
-        completeUnimported = true,
-        usePlaceholders = true,
-        analyses = {
-          unusedparams = true,
-          nilness = true,
-          shadow = true,
-          unusedwrite = true,
-        },
-        staticcheck = true,
-      },
-    },
-  },
+  gopls = lsp.gopls,
 
   -- K8S LSP config (yamlls)
-  yamlls = {
-    settings = {
-      yaml = {
-        schemas = {
-          kubernetes = "*.yaml",
-        },
-        validate = true,
-        completion = true,
-        hover = true,
-      },
-    },
-  },
+  yamlls = lsp.yamlls,
 
   -- Dockerfile LSP config (dockerfile-language-server)
-  dockerls = {
-    cmd = { "docker-langserver", "--stdio" },
-    filetypes = { "Dockerfile" },
-    root_dir = util.root_pattern "Dockerfile",
-  },
+  dockerls = lsp.dockerls,
 
-  docker_compose_language_service = {
-    cmd = { "docker-compose-language-service", "--stdio" },
-    filetypes = { "yaml.docker-compose" },
-    root_dir = util.root_pattern "docker-compose.yaml",
-  },
+  docker_compose_language_service = lsp.docker_compose_language_service,
 
-  bashls = {
-    filetypes = { "sh", "bash", "zsh", "bashrc", "zshrc" },
-    single_file_support = true,
-  },
+  bashls = lsp.bashls,
+
+  -- TypeScript/JavaScript LSP config (ts_ls)
+  ts_ls = lsp.ts_ls,
+
+  -- HTML LSP config (html)
+  html = lsp.html,
 
   -- JSON LSP config (jsonls)
-  jsonls = {
-    cmd = { "vscode-json-languageserver", "--stdio" },
-    filetypes = { "json" },
-    init_options = {
-      provideFormatter = true,
-    },
-  },
+  jsonls = lsp.jsonls,
 
   -- Terraform LSP config (terraformls)
-  terraformls = {
-    cmd = { "terraform-ls", "serve" },
-    filetypes = { "terraform", "tf", "hcl" },
-    root_dir = util.root_pattern(".terraform", ".git"),
-  },
+  terraformls = lsp.terraformls,
 
   -- Helm LSP config (helm_ls)
-  helm_ls = {
-    cmd = { "helm-language-server", "--stdio" },
-    filetypes = { "yaml.helm" },
-    root_dir = util.root_pattern "Chart.yaml",
-  },
+  helm_ls = lsp.helm_ls,
 
   -- Protobuf LSP config (buf_ls)
-  buf_ls = {
-    cmd = { "buf-ls" },
-    filetypes = { "proto" },
-    root_dir = util.root_pattern "buf.yaml",
-  },
+  buf_ls = lsp.buf_ls,
+
+  -- CSS LSP config (cssls)
+  cssls = lsp.cssls,
 
   -- SQL LSP config (sql-language-server)
-  sqlls = {
-    cmd = { "sql-language-server", "up", "--method", "stdio" },
-    filetypes = { "sql" },
-    root_dir = util.root_pattern ".git",
-  },
+  sqlls = lsp.sqlls,
 
   -- Swift LSP config (sourcekit)
-  sourcekit = {
-    capabilities = {
-      workspace = {
-        didChangeWatchedFiles = {
-          dynamicRegistration = true,
-        },
-      },
-    },
-  },
+  sourcekit = lsp.sourcekit,
+
+  -- Java LSP config (jdtls)
+  jdtls = lsp.jdtls,
 
   -- Python LSP config (pyright)
-  pyright = {
-    cmd = { "pyright-langserver", "--stdio" },
-    filetypes = { "python" },
-    root_dir = util.root_pattern("pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", ".git"),
-    capabilities = {
-      textDocument = {
-        completion = {
-          completionItem = {
-            snippetSupport = true,
-          },
-        },
-      },
-    },
-  },
+  pyright = lsp.pyright,
 }
 
 for name, opts in pairs(servers) do
