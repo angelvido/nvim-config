@@ -7,7 +7,6 @@ local options = {
     dockerfile = { "shfmt" },
     sh = { "shfmt" },
     bash = { "shfmt" },
-    java = { "google-java-format" },
     swift = { "swiftformat" },
     css = { "prettier" },
     graphql = { "prettier" },
@@ -29,16 +28,7 @@ local options = {
     lsp_fallback = true,
   },
 
-  -- TODO: Revamp Java configuration (including formatter setup) to be more dynamic and robust
-
-  -- Remember to install the google-java-format binary with `brew install google-java-format`
-  formatters = {
-    ["google-java-format"] = {
-      command = "google-java-format",
-      args = { "-" },
-      stdin = true,
-    },
-  },
+  formatters = {},
 }
 
 return options

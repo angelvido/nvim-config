@@ -26,9 +26,6 @@ M.setup = function()
       "swiftlint",
       -- "yamllint",
       -- "jsonlint",
-
-      -- DAP Tools
-      "delve",
     },
   }
 

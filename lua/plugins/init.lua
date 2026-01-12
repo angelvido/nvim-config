@@ -163,15 +163,6 @@ return {
     end,
   },
 
-  -- Java LSP via nvim-jdtls
-  {
-    "mfussenegger/nvim-jdtls",
-    ft = { "java" },
-    dependencies = {
-      "mason-org/mason.nvim",
-    },
-  },
-
   -- Treesitter plugin
   {
     "nvim-treesitter/nvim-treesitter",
@@ -196,7 +187,7 @@ return {
   -- Xcodebuild plugins
   {
     "j-hui/fidget.nvim",
-    event = "VeryLazy",
+    lazy = false,
     config = function()
       require("configs.fidget").setup()
     end,
@@ -231,7 +222,7 @@ return {
       "XcodebuildCodeActions",
     },
     config = function()
-      require("xcodebuild").setup()
+      require("configs.xcodebuild").setup()
     end,
   },
 }

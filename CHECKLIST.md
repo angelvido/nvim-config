@@ -1,28 +1,14 @@
 # Neovim Config Improvement Checklist
 
 ## Critical / Startup Stability
-- [ ] Fix DAP load order so `require "dap"` cannot run before the plugin is available.
-- [ ] Fix Fidget load order so configs using it cannot run before the plugin is loaded.
-- [ ] Ensure xcodebuild uses the custom config (`configs/xcodebuild.lua`) instead of the default setup.
-- [ ] Remove duplicate Mason setup calls so it only runs once.
+- [x] Fix DAP load order so `require "dap"` cannot run before the plugin is available.
+- [x] Fix Fidget load order so configs using it cannot run before the plugin is loaded.
+- [x] Ensure xcodebuild uses the custom config (`configs/xcodebuild.lua`) instead of the default setup.
+- [x] Remove duplicate Mason setup calls so it only runs once.
 
-## Java (JDTLS, Spring, Maven/Gradle)
-- [ ] Rework Java detection to use `root_dir` instead of `cwd` for workspace naming.
-- [ ] Use `-data` (and proper workspace dir) when starting `jdtls` to avoid state collisions.
-- [ ] Make Java runtime detection configurable and robust across macOS/Linux.
-- [ ] Add Maven/Gradle project detection and per-project settings.
-- [ ] Add Java test/DAP integration (junit, spring, etc.) via jdtls bundles.
-- [ ] Improve Java formatting workflow (install/ensure formatter, better defaults).
-- [ ] Add Java linting (checkstyle/spotbugs/sonarlint or alternatives).
-- [ ] Document Java setup steps and required tools.
-
-## Debugging (DAP Revamp)
-- [ ] Redesign DAP setup into a language-agnostic core plus language-specific modules.
-- [ ] Add JS/TS debugger (node, chrome) configs.
-- [ ] Add Python DAP config.
-- [ ] Add Java DAP config (reuse jdtls bundles if possible).
-- [ ] Add Go DAP config cleanup (keep but modernize).
-- [ ] Add UI/UX improvements: keymaps, layouts, auto-open/close, and session management.
+## Reset Areas (Pending Rebuild)
+- [ ] Rebuild Java support from scratch (LSP, formatting, linting, tests).
+- [ ] Rebuild DAP/debugging from scratch (core + language configs).
 
 ## LSP / Formatters / Linters (Infra/DevOps)
 - [ ] Dockerfile: formatter/linter tooling and proper filetype handling.

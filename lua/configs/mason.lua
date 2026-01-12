@@ -19,7 +19,6 @@ M.setup = function()
       -- Configured LSPs
       "lua_ls",
       "gopls",
-      "jdtls",
       "jsonls",
       "terraformls",
       "yamlls",
@@ -29,7 +28,9 @@ M.setup = function()
       "sqlls",
       "helm_ls",
     },
-    automatic_installation = true,
+    -- mason-lspconfig now auto-enables installed servers by default; disable to avoid
+    -- duplicate lua_ls (and others) when we enable servers in configs/lspconfig.lua.
+    automatic_enable = false,
   }
 
   handle:finish()

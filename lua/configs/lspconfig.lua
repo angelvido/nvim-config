@@ -1,5 +1,4 @@
 -- lua/configs/lspconfig.lua
-require("configs.mason").setup()
 require("nvchad.configs.lspconfig").defaults()
 
 local nvlsp = require "nvchad.configs.lspconfig"
@@ -189,16 +188,6 @@ for name, opts in pairs(servers) do
   vim.lsp.config(name, opts)
   vim.lsp.enable(name)
 end
-
--- Auto-start jdtls for Java files
-vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
-  pattern = "*.java",
-  callback = function()
-    vim.defer_fn(function()
-      require "configs.java"
-    end, 100)
-  end,
-})
 
 handle:finish()
 fidget.notify("LSP config: LSP configuration verified", vim.log.levels.INFO)
