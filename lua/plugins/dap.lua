@@ -1,3 +1,4 @@
+-- TODO: Revamp all the debugging setup and try to use as many language configs as possible (Go, Python, JS, Java, etc...)
 local map = vim.keymap.set
 
 return {

@@ -62,6 +62,33 @@ return {
     end,
   },
 
+  -- Codex plugin
+  {
+    "johnseth97/codex.nvim",
+    lazy = true,
+    cmd = { "Codex", "CodexToggle" },
+    keys = {
+      {
+        "<leader>cx",
+        function()
+          require("codex").toggle()
+        end,
+        desc = "Toggle Codex popup",
+        mode = { "n", "t" },
+      },
+    },
+    opts = {
+      use_buffer = false,
+      border = "rounded",
+      width = 0.8,
+      height = 0.8,
+
+      panel = false,
+
+      autoinstall = true,
+    },
+  },
+
   -- Markdown preview plugin
   {
     "MeanderingProgrammer/markdown.nvim",
@@ -95,7 +122,6 @@ return {
   -- Formatters plugin with conform
   {
     "stevearc/conform.nvim",
-    -- event = 'BufWritePre', -- uncomment for format on save
     opts = require "configs.conform",
   },
 

@@ -1,8 +1,8 @@
--- load defaults i.e lua_lsp
+-- lua/configs/lspconfig.lua
 require("configs.mason").setup()
 require("nvchad.configs.lspconfig").defaults()
 
-local lspconfig = require "lspconfig"
+local nvlsp = require "nvchad.configs.lspconfig"
 local util = require "lspconfig/util"
 
 local fidget = require "fidget"
@@ -15,7 +15,7 @@ handle = progress.handle.create {
   message = "Configuring LSP...",
 }
 
--- EXAMPLE
+-- EXAMPLE CONFIGURATIONS
 -- local servers = { "html", "cssls" }
 -- local nvlsp = require "nvchad.configs.lspconfig"
 
@@ -28,118 +28,167 @@ handle = progress.handle.create {
 --   }
 -- end
 
--- configuring single server, example: typescript
--- lspconfig.ts_ls.setup {
+-- configuring single server, example: Go LSP
+-- Go LSP config (gopls)
+-- vim.lsp.config("gopls", {
+--   cmd = { "gopls" },
+--   filetypes = { "go", "gomod", "gowork", "gotmpl" },
+--   root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+--   flags = {
+--     debounce_text_changes = 500,
+--   },
+--
+--   settings = {
+--     gopls = {
+--       completeUnimported = true,
+--       usePlaceholders = true,
+--       analyses = {
+--         unusedparams = true,
+--         nilness = true,
+--         shadow = true,
+--         unusedwrite = true,
+--       },
+--       staticcheck = true,
+--     },
+--   },
+--
 --   on_attach = nvlsp.on_attach,
 --   on_init = nvlsp.on_init,
 --   capabilities = nvlsp.capabilities,
--- }
+-- })
+--
+-- vim.lsp.enable("gopls")
 
--- Go LSP config (gopls)
-lspconfig.gopls.setup {
-  cmd = { "gopls" },
-  filetypes = { "go", "gomod", "gowork", "gotmpl" },
-  root_dir = util.root_pattern("go.work", "go.mod", ".git"),
-  flags = {
-    debounce_text_changes = 500,
+local servers = {
+  -- Go LSP config (gopls)
+  gopls = {
+    cmd = { "gopls" },
+    filetypes = { "go", "gomod", "gowork", "gotmpl" },
+    root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+    flags = {
+      debounce_text_changes = 500,
+    },
+
+    settings = {
+      gopls = {
+        completeUnimported = true,
+        usePlaceholders = true,
+        analyses = {
+          unusedparams = true,
+          nilness = true,
+          shadow = true,
+          unusedwrite = true,
+        },
+        staticcheck = true,
+      },
+    },
   },
 
-  settings = {
-    gopls = {
-      completeUnimported = true,
-      usePlaceholders = true,
-      analyses = {
-        unusedparams = true,
-        nilness = true,
-        shadow = true,
-        unusedwrite = true,
+  -- K8S LSP config (yamlls)
+  yamlls = {
+    settings = {
+      yaml = {
+        schemas = {
+          kubernetes = "*.yaml",
+        },
+        validate = true,
+        completion = true,
+        hover = true,
       },
-      staticcheck = true,
+    },
+  },
+
+  -- Dockerfile LSP config (dockerfile-language-server)
+  dockerls = {
+    cmd = { "docker-langserver", "--stdio" },
+    filetypes = { "Dockerfile" },
+    root_dir = util.root_pattern "Dockerfile",
+  },
+
+  docker_compose_language_service = {
+    cmd = { "docker-compose-language-service", "--stdio" },
+    filetypes = { "yaml.docker-compose" },
+    root_dir = util.root_pattern "docker-compose.yaml",
+  },
+
+  bashls = {
+    filetypes = { "sh", "bash", "zsh", "bashrc", "zshrc" },
+    single_file_support = true,
+  },
+
+  -- JSON LSP config (jsonls)
+  jsonls = {
+    cmd = { "vscode-json-languageserver", "--stdio" },
+    filetypes = { "json" },
+    init_options = {
+      provideFormatter = true,
+    },
+  },
+
+  -- Terraform LSP config (terraformls)
+  terraformls = {
+    cmd = { "terraform-ls", "serve" },
+    filetypes = { "terraform", "tf", "hcl" },
+    root_dir = util.root_pattern(".terraform", ".git"),
+  },
+
+  -- Helm LSP config (helm_ls)
+  helm_ls = {
+    cmd = { "helm-language-server", "--stdio" },
+    filetypes = { "yaml.helm" },
+    root_dir = util.root_pattern "Chart.yaml",
+  },
+
+  -- Protobuf LSP config (buf_ls)
+  buf_ls = {
+    cmd = { "buf-ls" },
+    filetypes = { "proto" },
+    root_dir = util.root_pattern "buf.yaml",
+  },
+
+  -- SQL LSP config (sql-language-server)
+  sqlls = {
+    cmd = { "sql-language-server", "up", "--method", "stdio" },
+    filetypes = { "sql" },
+    root_dir = util.root_pattern ".git",
+  },
+
+  -- Swift LSP config (sourcekit)
+  sourcekit = {
+    capabilities = {
+      workspace = {
+        didChangeWatchedFiles = {
+          dynamicRegistration = true,
+        },
+      },
+    },
+  },
+
+  -- Python LSP config (pyright)
+  pyright = {
+    cmd = { "pyright-langserver", "--stdio" },
+    filetypes = { "python" },
+    root_dir = util.root_pattern("pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", ".git"),
+    capabilities = {
+      textDocument = {
+        completion = {
+          completionItem = {
+            snippetSupport = true,
+          },
+        },
+      },
     },
   },
 }
 
--- K8S LSP config (yamlls)
-lspconfig.yamlls.setup {
-  settings = {
-    yaml = {
-      schemas = {
-        kubernetes = "*.yaml",
-      },
-      validate = true,
-      completion = true,
-      hover = true,
-    },
-  },
-}
+for name, opts in pairs(servers) do
+  opts.on_attach = nvlsp.on_attach
+  opts.on_init = nvlsp.on_init
+  opts.capabilities = nvlsp.capabilities
 
--- Dockerfile LSP config (dockerfile-language-server)
-lspconfig.dockerls.setup {
-  cmd = { "docker-langserver", "--stdio" },
-  filetypes = { "Dockerfile" },
-  root_dir = util.root_pattern "Dockerfile",
-}
-
--- Docker-Compose LSP config (docker-compose-language-service)
-lspconfig.docker_compose_language_service.setup {
-  cmd = { "docker-compose-language-service", "--stdio" },
-  filetypes = { "yaml.docker-compose" },
-  root_dir = util.root_pattern "docker-compose.yaml",
-}
-
--- Bash and Sh LSP config (bash-language-server)
-lspconfig.bashls.setup {
-  filetypes = { "sh", "bash", "zsh", "bashrc", "zshrc" },
-  root_dir = lspconfig.util.find_git_ancestor,
-  single_file_support = true,
-}
-
--- JSON LSP config (jsonls)
-lspconfig.jsonls.setup {
-  cmd = { "vscode-json-languageserver", "--stdio" },
-  filetypes = { "json" },
-  init_options = {
-    provideFormatter = true,
-  },
-}
-
--- Terraform LSP config (terraformls)
-lspconfig.terraformls.setup {
-  cmd = { "terraform-ls", "serve" },
-  filetypes = { "terraform", "tf", "hcl" },
-  root_dir = util.root_pattern(".terraform", ".git"),
-}
-
--- Helm LSP config (helm_ls)
-lspconfig.helm_ls.setup {
-  cmd = { "helm-language-server", "--stdio" },
-  filetypes = { "yaml.helm" },
-  root_dir = util.root_pattern "Chart.yaml",
-}
-
--- Protobuf LSP config (buf_ls)
-lspconfig.buf_ls.setup {
-  cmd = { "buf-ls" },
-  filetypes = { "proto" },
-  root_dir = util.root_pattern "buf.yaml",
-}
-
--- SQL LSP config (sql-language-server)
-lspconfig.sqlls.setup {
-  cmd = { "sql-language-server", "up", "--method", "stdio" },
-  filetypes = { "sql" },
-  root_dir = util.root_pattern ".git",
-}
-
-lspconfig.sourcekit.setup {
-  capabilities = {
-    workspace = {
-      didChangeWatchedFiles = {
-        dynamicRegistration = true,
-      },
-    },
-  },
-}
+  vim.lsp.config(name, opts)
+  vim.lsp.enable(name)
+end
 
 -- Auto-start jdtls for Java files
 vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {

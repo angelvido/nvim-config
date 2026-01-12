@@ -1,16 +1,12 @@
+-- lua/configs/conform.lua
 local options = {
-  -- TODO: Configure each Formatter format
-  -- formatters = {
-  --   shfmt = {
-  --     prepend_args = { "-i", "2", "-ci" },
-  --   },
-  -- },
-
   -- Formatters configuration with conform
   formatters_by_ft = {
     lua = { "stylua" },
     go = { "goimports" },
     dockerfile = { "shfmt" },
+    sh = { "shfmt" },
+    bash = { "shfmt" },
     java = { "google-java-format" },
     swift = { "swiftformat" },
     css = { "prettier" },
@@ -32,6 +28,8 @@ local options = {
     timeout_ms = 500,
     lsp_fallback = true,
   },
+
+  -- TODO: Revamp Java configuration (including formatter setup) to be more dynamic and robust
 
   -- Remember to install the google-java-format binary with `brew install google-java-format`
   formatters = {

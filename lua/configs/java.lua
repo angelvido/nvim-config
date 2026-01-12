@@ -1,3 +1,4 @@
+-- TODO: Revamp Java Neovim setup to be more dynamic and robust (LSP, DAP, formatting, linting, etc...)
 local jdtls = require "jdtls"
 
 local home = os.getenv "HOME"
@@ -70,7 +71,7 @@ local config = {
 
 -- Ensure Conform recognizes this Java buffer
 vim.schedule(function()
-  local conform = require("conform")
+  local conform = require "conform"
   conform.formatters_by_ft = vim.tbl_deep_extend("force", conform.formatters_by_ft or {}, {
     java = { "google-java-format" },
   })

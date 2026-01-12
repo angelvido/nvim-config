@@ -1,4 +1,7 @@
+-- lua/configs/lint.lua
 local lint = require "lint"
+
+-- TODO: Setup all linters needed
 
 -- Linters configuration with nvim-lint
 lint.linters_by_ft = {

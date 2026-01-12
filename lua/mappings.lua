@@ -1,7 +1,5 @@
 require "nvchad.mappings"
 
--- add yours here
-
 local map = vim.keymap.set
 
 map("n", ";", ":", { desc = "CMD enter command mode" })
@@ -97,5 +95,3 @@ map("n", "<leader>sx", "<cmd>XcodebuildQuickfixLine<cr>", { desc = "Quickfix Lin
 map("n", "<leader>sa", "<cmd>XcodebuildCodeActions<cr>", { desc = "Show Code Actions" })
 
 -- TODO: Add mappings to kind of execute specific language commands (an example could be a go run command or the Java ones that obviously are more complex)
-
--- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
