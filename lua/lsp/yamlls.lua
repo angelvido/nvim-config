@@ -68,7 +68,21 @@ return {
     -- https://github.com/redhat-developer/vscode-redhat-telemetry#how-to-disable-telemetry-reporting
     redhat = { telemetry = { enabled = false } },
     -- formatting disabled by default in yaml-language-server; enable it
-    yaml = { format = { enable = true } },
+    yaml = {
+      format = { enable = true },
+      schemas = {
+        ["https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.32.1-standalone-strict/all.json"] = {
+          "k8s/*.yaml",
+          "k8s/*.yml",
+          "kubernetes/*.yaml",
+          "kubernetes/*.yml",
+          "manifests/*.yaml",
+          "manifests/*.yml",
+          "*.k8s.yaml",
+          "*.k8s.yml",
+        },
+      },
+    },
   },
   on_init = function(client)
     --- https://github.com/neovim/nvim-lspconfig/pull/4016
