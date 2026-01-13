@@ -4,9 +4,9 @@ local options = {
   formatters_by_ft = {
     lua = { "stylua" },
     go = { "goimports" },
-    dockerfile = { "shfmt" },
     sh = { "shfmt" },
     bash = { "shfmt" },
+    zsh = { "shfmt" },
     swift = { "swiftformat" },
     css = { "prettier" },
     graphql = { "prettier" },
@@ -20,6 +20,14 @@ local options = {
     typescript = { "prettier" },
     typescriptreact = { "prettier" },
     yaml = { "prettier" },
+    ["yaml.docker-compose"] = { "prettier" },
+    helm = { "prettier" },
+    python = { "ruff_format" },
+    terraform = { "terraform_fmt" },
+    hcl = { "terraform_fmt" },
+    sql = { "sqlfluff" },
+    proto = { "buf" },
+    java = { "google-java-format" },
   },
 
   format_on_save = {
