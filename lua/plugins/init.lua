@@ -22,12 +22,7 @@ return {
   {
     "zbirenbaum/copilot.lua",
     event = "InsertEnter",
-    config = function()
-      require("copilot").setup {
-        suggestion = { enabled = false },
-        panel = { enabled = false },
-      }
-    end,
+    opts = require "configs.copilot",
   },
 
   {
@@ -42,24 +37,7 @@ return {
     "CopilotC-Nvim/CopilotChat.nvim",
     cmd = { "CopilotChat", "CopilotChatExplain", "CopilotChatTests", "CopilotChatFix" },
     dependencies = { "zbirenbaum/copilot.lua", "MeanderingProgrammer/markdown.nvim" },
-    opts = {
-      highlight_headers = false,
-      separator = "---",
-      error_header = "> [!ERROR] Error",
-    },
-    config = function()
-      require("CopilotChat").setup {
-        debug = false,
-        window = {
-          width = 40,
-          height = 10,
-          border = "rounded",
-          relative = "editor",
-          row = 1,
-          col = 1,
-        },
-      }
-    end,
+    opts = require "configs.copilot-chat",
   },
 
   -- Codex plugin
@@ -77,16 +55,7 @@ return {
         mode = { "n", "t" },
       },
     },
-    opts = {
-      use_buffer = false,
-      border = "rounded",
-      width = 0.8,
-      height = 0.8,
-
-      panel = false,
-
-      autoinstall = true,
-    },
+    opts = require "configs.codex",
   },
 
   -- Markdown preview plugin
@@ -107,16 +76,7 @@ return {
         "zbirenbaum/copilot-cmp",
       },
     },
-    opts = {
-      sources = {
-        { name = "nvim_lsp", group_index = 2 },
-        { name = "copilot", group_index = 2 },
-        { name = "luasnip", group_index = 2 },
-        { name = "buffer", group_index = 2 },
-        { name = "nvim_lua", group_index = 2 },
-        { name = "path", group_index = 2 },
-      },
-    },
+    opts = require "configs.cmp",
   },
 
   -- Formatters plugin with conform
@@ -131,6 +91,18 @@ return {
     config = function()
       require "configs.lint"
     end,
+  },
+
+  -- Lazydev plugin
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {
+      integrations = {
+        lspconfig = true,
+        cmp = true,
+      },
+    },
   },
 
   -- Tools installer plugin with mason.nvim, mason-lspconfig.nvim & mason-tool-installer.nvim
@@ -167,24 +139,10 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    opts = {
-      ensure_installed = {
-        "vim",
-        "lua",
-        "vimdoc",
-        "html",
-        "css",
-        "markdown",
-        "markdown_inline",
-      },
-      highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-      },
-    },
+    opts = require "configs.treesitter",
   },
 
-  -- Xcodebuild plugins
+  -- Fidget plugin
   {
     "j-hui/fidget.nvim",
     lazy = false,
@@ -192,6 +150,8 @@ return {
       require("configs.fidget").setup()
     end,
   },
+
+  -- Xcodebuild plugin
 
   {
     "wojciech-kulik/xcodebuild.nvim",

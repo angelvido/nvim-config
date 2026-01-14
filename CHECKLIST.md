@@ -1,7 +1,8 @@
 # Neovim Config Checklist
 
 ## Critical / Startup Stability
-No critical issues at the moment.
+- [X] Fixing double workspace loading on lua project.
+
 ## Reset Areas (Pending Rebuild)
 - [ ] Rebuild DAP/debugging from scratch (core + language configs).
 
