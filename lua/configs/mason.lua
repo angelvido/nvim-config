@@ -32,6 +32,8 @@ M.setup = function()
       "pyright",
       "cssls",
       "jdtls",
+      "ansiblels",
+      "ruby_lsp",
     },
     automatic_enable = false,
   }

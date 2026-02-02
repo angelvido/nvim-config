@@ -20,6 +20,7 @@ local options = {
     typescript = { "prettier" },
     typescriptreact = { "prettier" },
     yaml = { "prettier" },
+    ["yaml.ansible"] = { "prettier" },
     ["yaml.docker-compose"] = { "prettier" },
     helm = { "prettier" },
     python = { "ruff_format" },
@@ -28,6 +29,8 @@ local options = {
     sql = { "sqlfluff" },
     proto = { "buf" },
     java = { "google-java-format" },
+    ruby = { "rubocop" },
+    eruby = { "rubocop" },
   },
 
   format_on_save = {

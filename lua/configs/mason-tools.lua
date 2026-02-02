@@ -25,6 +25,7 @@ M.setup = function()
       "sqlfluff",
       "buf",
       "google-java-format",
+      "rubocop",
 
       -- Linters
       "hadolint",
@@ -36,6 +37,7 @@ M.setup = function()
       "stylelint",
       "jsonlint",
       "yamllint",
+      "ansible-lint",
       "tflint",
       "sqlfluff",
       "buf",

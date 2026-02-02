@@ -16,6 +16,7 @@ lint.linters_by_ft = {
   css = { "stylelint" },
   json = { "jsonlint" },
   yaml = { "yamllint" },
+  ["yaml.ansible"] = { "ansible_lint" },
   ["yaml.docker-compose"] = { "yamllint" },
   helm = { "yamllint" },
   terraform = { "tflint" },
@@ -25,6 +26,8 @@ lint.linters_by_ft = {
   python = { "ruff" },
   java = { "checkstyle" },
   swift = { "swiftlint" },
+  ruby = { "rubocop" },
+  eruby = { "rubocop" },
 }
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {

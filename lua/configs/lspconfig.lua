@@ -19,6 +19,8 @@ local lsp = {
   sourcekit = require "lsp.sourcekit",
   jdtls = require "lsp.jdtls",
   pyright = require "lsp.pyright",
+  ansiblels = require "lsp.ansiblels",
+  ruby_lsp = require "lsp.ruby_lsp",
 }
 
 local fidget = require "fidget"
@@ -121,6 +123,12 @@ local servers = {
 
   -- Python LSP config (pyright)
   pyright = lsp.pyright,
+
+  -- Ansible LSP config (ansible-language-server)
+  ansiblels = lsp.ansiblels,
+
+  -- Ruby LSP config (ruby-lsp)
+  ruby_lsp = lsp.ruby_lsp,
 }
 
 for name, opts in pairs(servers) do
