@@ -127,9 +127,63 @@ return {
     end,
   },
 
+  -- Java: nvim-java + Spring Boot tools
+  {
+    "nvim-java/nvim-java",
+    lazy = false,
+    priority = 900,
+    dependencies = {
+      "JavaHello/spring-boot.nvim",
+      "MunifTanjim/nui.nvim",
+      "mfussenegger/nvim-dap",
+    },
+    config = function()
+      require("java").setup {
+        checks = {
+          nvim_version = true,
+          nvim_jdtls_conflict = true,
+        },
+        jdtls = {
+          version = "1.43.0",
+        },
+        lombok = {
+          enable = true,
+          version = "1.18.40",
+        },
+        java_test = {
+          enable = true,
+          version = "0.40.1",
+        },
+        java_debug_adapter = {
+          enable = true,
+          version = "0.58.2",
+        },
+        spring_boot_tools = {
+          enable = true,
+          version = "1.55.1",
+        },
+        jdk = {
+          auto_install = true,
+          version = "17",
+        },
+        log = {
+          use_console = true,
+          use_file = true,
+          level = "info",
+          log_file = vim.fn.stdpath("state") .. "/nvim-java.log",
+          max_lines = 1000,
+          show_location = false,
+        },
+      }
+    end,
+  },
+
   -- LSP configuration plugin with nvim-lspconfig
   {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      "nvim-java/nvim-java",
+    },
     config = function()
       require "configs.lspconfig"
     end,

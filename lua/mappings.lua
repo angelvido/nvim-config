@@ -94,4 +94,16 @@ map("n", "<leader>sq", "<cmd>Telescope quickfix<cr>", { desc = "Show QuickFix Li
 map("n", "<leader>sx", "<cmd>XcodebuildQuickfixLine<cr>", { desc = "Quickfix Line" })
 map("n", "<leader>sa", "<cmd>XcodebuildCodeActions<cr>", { desc = "Show Code Actions" })
 
--- TODO: Add mappings to kind of execute specific language commands (an example could be a go run command or the Java ones that obviously are more complex)
+-- Java (nvim-java)
+map("n", "<leader>jr", "<cmd>JavaRunnerRunMain<cr>", { desc = "Java Run Main" })
+map("n", "<leader>jR", "<cmd>JavaRunnerStopMain<cr>", { desc = "Java Stop Main" })
+map("n", "<leader>jl", "<cmd>JavaRunnerToggleLogs<cr>", { desc = "Java Toggle Logs" })
+map("n", "<leader>jd", "<cmd>JavaDapConfig<cr>", { desc = "Java DAP Config" })
+
+map("n", "<leader>jt", "<cmd>JavaTestRunCurrentClass<cr>", { desc = "Java Test Class" })
+map("n", "<leader>jT", "<cmd>JavaTestRunCurrentMethod<cr>", { desc = "Java Test Method" })
+map("n", "<leader>ja", "<cmd>JavaTestRunAllTests<cr>", { desc = "Java Test All" })
+map("n", "<leader>jD", "<cmd>JavaTestDebugCurrentClass<cr>", { desc = "Java Debug Class" })
+map("n", "<leader>jM", "<cmd>JavaTestDebugCurrentMethod<cr>", { desc = "Java Debug Method" })
+map("n", "<leader>jA", "<cmd>JavaTestDebugAllTests<cr>", { desc = "Java Debug All" })
+map("n", "<leader>jv", "<cmd>JavaTestViewLastReport<cr>", { desc = "Java View Test Report" })

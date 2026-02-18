@@ -17,6 +17,7 @@ M.setup = function()
   mason_lspconfig.setup {
     ensure_installed = {
       -- Configured LSPs
+      "lua_ls",
       "gopls",
       "jsonls",
       "terraformls",

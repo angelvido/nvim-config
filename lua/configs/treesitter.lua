@@ -8,6 +8,7 @@ return {
     "css",
     "markdown",
     "markdown_inline",
+    "java",
   },
   highlight = {
     enable = true,

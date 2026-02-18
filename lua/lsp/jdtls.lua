@@ -17,38 +17,8 @@
 ---   vim.lsp.enable('jdtls')
 --- ```
 ---
---- You can also pass extra custom jvm arguments with the JDTLS_JVM_ARGS environment variable as a space separated list of arguments,
---- that will be converted to multiple --jvm-arg=<param> args when passed to the jdtls script. This will allow for example tweaking
---- the jvm arguments or integration with external tools like lombok:
----
---- ```sh
---- export JDTLS_JVM_ARGS="-javaagent:$HOME/.local/share/java/lombok.jar"
---- ```
----
---- For automatic installation you can use the following unofficial installers/launchers under your own risk:
----   - [jdtls-launcher](https://github.com/eruizc-dev/jdtls-launcher) (Includes lombok support by default)
----     ```lua
----       -- init.lua
----       vim.lsp.config('jdtls', { cmd = { 'jdtls' } })
----     ```
-
-local function get_jdtls_cache_dir()
-  return vim.fn.stdpath("cache") .. "/jdtls"
-end
-
-local function get_jdtls_workspace_dir()
-  return get_jdtls_cache_dir() .. "/workspace"
-end
-
-local function get_jdtls_jvm_args()
-  local env = os.getenv("JDTLS_JVM_ARGS")
-  local args = {}
-  for a in string.gmatch((env or ""), "%S+") do
-    local arg = string.format("--jvm-arg=%s", a)
-    table.insert(args, arg)
-  end
-  return unpack(args)
-end
+--- For nvim-java, keep the jdtls config minimal so the plugin can inject its own
+--- command and bundles for features like Spring Boot, tests, and debugging.
 
 local root_markers1 = {
   -- Multi-module projects
@@ -70,33 +40,33 @@ local root_markers2 = {
   "build.gradle.kts", -- Gradle
 }
 
+local runtimes = {}
+
+local function add_runtime(name, path, is_default)
+  if path and path ~= "" then
+    table.insert(runtimes, { name = name, path = path, default = is_default or false })
+  end
+end
+
+-- Optional: configure JDK runtimes via env vars (set in your shell)
+add_runtime("JavaSE-17", vim.env.JAVA_HOME_17, true)
+add_runtime("JavaSE-21", vim.env.JAVA_HOME_21)
+
+local settings = nil
+if #runtimes > 0 then
+  settings = {
+    java = {
+      configuration = {
+        runtimes = runtimes,
+      },
+    },
+  }
+end
+
 ---@type vim.lsp.Config
 return {
-  ---@param dispatchers? vim.lsp.rpc.Dispatchers
-  ---@param config vim.lsp.ClientConfig
-  cmd = function(dispatchers, config)
-    local workspace_dir = get_jdtls_workspace_dir()
-    local data_dir = workspace_dir
-
-    if config.root_dir then
-      data_dir = data_dir .. "/" .. vim.fn.fnamemodify(config.root_dir, ":p:h:t")
-    end
-
-    local config_cmd = {
-      "jdtls",
-      "-data",
-      data_dir,
-      get_jdtls_jvm_args(),
-    }
-
-    return vim.lsp.rpc.start(config_cmd, dispatchers, {
-      cwd = config.cmd_cwd,
-      env = config.cmd_env,
-      detached = config.detached,
-    })
-  end,
   filetypes = { "java" },
   root_markers = vim.fn.has("nvim-0.11.3") == 1 and { root_markers1, root_markers2 }
     or vim.list_extend(root_markers1, root_markers2),
-  init_options = {},
+  settings = settings,
 }

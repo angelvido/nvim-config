@@ -43,6 +43,10 @@ M.setup = function()
       "buf",
       "ruff",
       "checkstyle",
+
+      -- Java tools
+      "java-debug-adapter",
+      "java-test",
     },
   }
 
