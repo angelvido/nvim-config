@@ -22,7 +22,7 @@ local options = {
     yaml = { "prettier" },
     ["yaml.ansible"] = { "prettier" },
     ["yaml.docker-compose"] = { "prettier" },
-    helm = { "prettier" },
+    helm = {},
     python = { "ruff_format" },
     terraform = { "terraform_fmt" },
     hcl = { "terraform_fmt" },
@@ -39,7 +39,6 @@ local options = {
     lsp_fallback = true,
   },
 
-  formatters = {},
 }
 
 return options
