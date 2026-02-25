@@ -14,6 +14,7 @@ This is my personal Neovim config, based on **NvChad**. The goal is to have LSP,
 - Java
 - Swift
 - Bash / Shell
+- Ruby (for Vagrantfiles as well)
 
 ## Requirements
 - Neovim **0.11+**
@@ -27,11 +28,6 @@ brew install neovim
 ## Install language runtimes/CLIs (Homebrew)
 ```bash
 brew install node go python openjdk swift-format terraform
-```
-
-Optional tools (install as needed):
-```bash
-brew install sqlfluff shellcheck tflint
 ```
 
 ## Quick setup
