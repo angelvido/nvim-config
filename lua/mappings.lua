@@ -107,3 +107,40 @@ map("n", "<leader>jD", "<cmd>JavaTestDebugCurrentClass<cr>", { desc = "Java Debu
 map("n", "<leader>jM", "<cmd>JavaTestDebugCurrentMethod<cr>", { desc = "Java Debug Method" })
 map("n", "<leader>jA", "<cmd>JavaTestDebugAllTests<cr>", { desc = "Java Debug All" })
 map("n", "<leader>jv", "<cmd>JavaTestViewLastReport<cr>", { desc = "Java View Test Report" })
+
+-- Toggle cmp autocompletion only (keeps LSP/formatters active)
+map("n", "<leader>ua", function()
+  vim.g.cmp_autocomplete_enabled = not vim.g.cmp_autocomplete_enabled
+
+  local ok, cmp = pcall(require, "cmp")
+  if ok and not vim.g.cmp_autocomplete_enabled then
+    cmp.abort()
+    cmp.close()
+  end
+
+  local state = vim.g.cmp_autocomplete_enabled and "ON" or "OFF"
+  vim.notify("Autocomplete: " .. state, vim.log.levels.INFO)
+end, { desc = "Toggle Autocomplete" })
+
+-- Search & Replace with confirmation
+local function run_confirmed_substitute(range_prefix, default_search)
+  vim.ui.input({ prompt = "Search pattern: ", default = default_search or "" }, function(search)
+    if not search or search == "" then
+      return
+    end
+
+    vim.ui.input({ prompt = "Replace with: " }, function(replace)
+      if replace == nil then
+        return
+      end
+
+      local escaped_search = vim.fn.escape(search, [[\@]])
+      local escaped_replace = vim.fn.escape(replace, [[\@&]])
+      vim.cmd(string.format("%ss@%s@%s@gc", range_prefix, escaped_search, escaped_replace))
+    end)
+  end)
+end
+
+map("n", "<leader>sR", function()
+  run_confirmed_substitute("%", vim.fn.expand "<cword>")
+end, { desc = "Search & Replace (confirm)" })

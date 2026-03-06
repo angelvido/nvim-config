@@ -1,5 +1,10 @@
 -- lua/configs/cmp.lua
+vim.g.cmp_autocomplete_enabled = vim.g.cmp_autocomplete_enabled ~= false
+
 return {
+  enabled = function()
+    return vim.g.cmp_autocomplete_enabled
+  end,
   sources = {
     { name = "lazydev", group_index = 0 },
     { name = "nvim_lsp", group_index = 2 },

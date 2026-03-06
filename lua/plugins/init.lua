@@ -14,6 +14,13 @@ return {
     config = function()
       require("git-conflict").setup {
         default_mappings = false,
+        disable_diagnostics = false,
+        list_opener = "copen",
+        highlights = {
+          incoming = "DiffText",
+          current = "DiffAdd",
+        },
+        debug = false,
       }
     end,
   },
@@ -170,11 +177,14 @@ return {
           use_console = true,
           use_file = true,
           level = "info",
-          log_file = vim.fn.stdpath("state") .. "/nvim-java.log",
+          log_file = vim.fn.stdpath "state" .. "/nvim-java.log",
           max_lines = 1000,
           show_location = false,
         },
       }
+
+      -- Let nvim-java provide the JDTLS config, then enable it explicitly.
+      vim.lsp.enable "jdtls"
     end,
   },
 

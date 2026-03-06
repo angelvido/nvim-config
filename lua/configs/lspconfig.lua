@@ -17,7 +17,6 @@ local lsp = {
   cssls = require "lsp.cssls",
   sqlls = require "lsp.sqlls",
   sourcekit = require "lsp.sourcekit",
-  jdtls = require "lsp.jdtls",
   pyright = require "lsp.pyright",
   ansiblels = require "lsp.ansiblels",
   ruby_lsp = require "lsp.ruby_lsp",
@@ -27,6 +26,20 @@ local fidget = require "fidget"
 local progress = require "fidget.progress"
 
 local handle = nil
+
+local function chain_callbacks(first, second)
+  if first == nil then
+    return second
+  end
+  if second == nil then
+    return first
+  end
+
+  return function(...)
+    first(...)
+    second(...)
+  end
+end
 
 handle = progress.handle.create {
   title = "LSP config",
@@ -118,9 +131,6 @@ local servers = {
   -- Swift LSP config (sourcekit)
   sourcekit = lsp.sourcekit,
 
-  -- Java LSP config (jdtls)
-  jdtls = lsp.jdtls,
-
   -- Python LSP config (pyright)
   pyright = lsp.pyright,
 
@@ -132,8 +142,8 @@ local servers = {
 }
 
 for name, opts in pairs(servers) do
-  opts.on_attach = nvlsp.on_attach
-  opts.on_init = nvlsp.on_init
+  opts.on_attach = chain_callbacks(opts.on_attach, nvlsp.on_attach)
+  opts.on_init = chain_callbacks(opts.on_init, nvlsp.on_init)
   opts.capabilities = nvlsp.capabilities
 
   vim.lsp.config(name, opts)
